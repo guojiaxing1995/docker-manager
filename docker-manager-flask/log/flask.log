@@ -1,0 +1,10 @@
+[2019-10-10 20:15:02,882] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+[2019-10-10 20:15:03,050] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+[2019-10-10 20:15:17,230] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+[2019-10-10 20:15:17,293] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+[2019-10-10 20:15:27,356] INFO in app.py - framework_error [line:17]: 405 Method Not Allowed: The method is not allowed for the requested URL.
+[2019-10-10 20:15:27,449] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+[2019-10-10 20:16:08,671] INFO in app.py - framework_error [line:17]: 405 Method Not Allowed: The method is not allowed for the requested URL.
+[2019-10-10 20:16:08,754] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+[2019-10-10 20:16:39,382] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+[2019-10-10 20:24:01,944] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
