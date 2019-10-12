@@ -8,3 +8,76 @@
 [2019-10-10 20:16:08,754] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
 [2019-10-10 20:16:39,382] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
 [2019-10-10 20:24:01,944] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+[2019-10-11 14:22:59,685] INFO in app.py - framework_error [line:17]: [Errno 2] No such file or directory: '../../config/hosts.yaml'
+[2019-10-11 14:26:47,016] INFO in app.py - framework_error [line:17]: [Errno 2] No such file or directory: '../config/hosts.yaml'
+[2019-10-11 14:27:06,351] INFO in app.py - framework_error [line:17]: [Errno 2] No such file or directory: '../../../config/hosts.yaml'
+[2019-10-11 14:27:42,045] INFO in app.py - framework_error [line:17]: [Errno 22] Invalid argument: 'D:\\pythonProgram\\docker-manager\\docker-manager-flask\x07pp\\config\\hosts.yaml'
+[2019-10-11 14:29:23,315] INFO in app.py - framework_error [line:17]: [Errno 2] No such file or directory: '../../config/hosts.yaml'
+[2019-10-11 14:30:40,659] INFO in app.py - framework_error [line:17]: [Errno 2] No such file or directory: '../../hosts.yaml'
+[2019-10-11 14:31:32,215] INFO in app.py - framework_error [line:17]: [Errno 2] No such file or directory: 'hosts.yaml'
+[2019-10-11 14:35:42,477] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+[2019-10-11 14:37:11,607] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+[2019-10-11 14:38:07,276] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+[2019-10-11 14:38:49,213] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+[2019-10-11 14:45:10,694] INFO in app.py - framework_error [line:17]: validate_for_api() missing 1 required positional argument: 'self'
+[2019-10-11 14:45:43,189] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+[2019-10-11 14:45:56,856] INFO in app.py - framework_error [line:17]: HTTPConnectionPool(host='www.guojiaxing.re', port=2375): Max retries exceeded with url: /v1.35/info (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001A26C234B00>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed',))
+[2019-10-11 15:21:22,051] INFO in app.py - framework_error [line:17]: 'dict' object has no attribute 'name'
+[2019-10-11 15:21:52,033] INFO in app.py - framework_error [line:17]: 'dict' object has no attribute 'Name'
+[2019-10-11 15:22:44,134] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+[2019-10-11 15:44:10,105] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+[2019-10-11 15:45:51,100] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+[2019-10-11 16:03:00,021] INFO in app.py - framework_error [line:17]: 'DockerClient' object has no attribute 'list'
+[2019-10-11 16:06:21,046] INFO in app.py - framework_error [line:17]: 500 Internal Server Error: None
+[2019-10-11 16:06:33,074] INFO in app.py - framework_error [line:17]: 500 Internal Server Error: None
+[2019-10-11 16:08:56,029] INFO in app.py - framework_error [line:17]: 500 Internal Server Error: None
+[2019-10-11 16:13:19,975] INFO in app.py - framework_error [line:17]: 500 Internal Server Error: None
+[2019-10-11 16:13:20,092] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+[2019-10-11 16:14:28,992] INFO in app.py - framework_error [line:17]: 500 Internal Server Error: None
+[2019-10-11 16:14:29,091] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+[2019-10-11 16:15:01,014] INFO in app.py - framework_error [line:17]: 500 Internal Server Error: None
+[2019-10-11 16:15:01,118] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+[2019-10-11 16:22:59,163] INFO in app.py - framework_error [line:17]: 500 Internal Server Error: None
+[2019-10-11 16:27:51,558] INFO in app.py - framework_error [line:17]: 500 Internal Server Error: None
+[2019-10-11 16:31:49,968] INFO in app.py - framework_error [line:17]: 'list' object has no attribute 'RepoTags'
+[2019-10-11 16:32:30,968] INFO in app.py - framework_error [line:17]: 'list' object has no attribute 'attrs'
+[2019-10-11 16:32:52,047] INFO in app.py - framework_error [line:17]: 'dict' object has no attribute 'RepoTags'
+[2019-10-11 17:50:25,960] INFO in app.py - framework_error [line:17]: 'name'
+[2019-10-11 17:51:32,987] INFO in app.py - framework_error [line:17]: 'name'
+[2019-10-11 17:52:36,542] INFO in app.py - framework_error [line:17]: 'name'
+[2019-10-11 17:53:01,908] INFO in app.py - framework_error [line:17]: 'status'
+[2019-10-11 17:54:11,301] INFO in app.py - framework_error [line:17]: 'Status'
+[2019-10-11 19:43:33,063] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-11 22:04:23,978] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-11 22:06:07,674] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-11 22:07:48,745] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-11 22:14:40,058] INFO in app.py - framework_error [line:17]: HTTPConnectionPool(host='www.guojiaxing.redw', port=2375): Max retries exceeded with url: /v1.35/info (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000015539A7A630>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed',))
+[2019-10-11 22:29:43,085] INFO in app.py - framework_error [line:17]: append() takes exactly one argument (2 given)
+[2019-10-11 22:34:09,571] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-11 22:35:34,150] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-11 22:35:37,614] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-11 22:36:03,747] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-11 22:36:07,762] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-11 22:58:24,630] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-12 09:29:14,569] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-12 09:56:44,484] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-12 09:56:52,197] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-12 10:12:35,291] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-12 10:12:41,739] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-12 10:15:02,138] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-12 10:15:15,847] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-12 10:18:06,627] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-12 10:18:12,222] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-12 11:17:28,342] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-12 11:17:39,635] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-12 13:36:38,969] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-12 13:36:44,266] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-12 13:38:36,987] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-12 13:38:39,517] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-12 13:38:52,979] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-12 13:48:05,688] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-12 13:48:10,502] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-12 15:52:10,752] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+[2019-10-12 15:53:16,766] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+[2019-10-12 15:57:36,722] INFO in app.py - framework_error [line:17]: HTTPConnectionPool(host='www.guojiaxing.redw', port=2375): Max retries exceeded with url: /v1.35/info (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001F7CA02A048>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed',))
+[2019-10-12 15:59:30,237] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.

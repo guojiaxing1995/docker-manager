@@ -2,14 +2,17 @@
   <div class="container">
     <div class="select">
       <label class="select-label">服务器</label>
-      <el-select v-model="IP" filterable placeholder="请选择服务器">
+      <el-select v-model="host" filterable placeholder="请选择服务器">
         <el-option
-          v-for="item in IPList"
+          v-for="item in hostList"
           :key="item.value"
           :label="item.label"
           :value="item.value">
         </el-option>
       </el-select>
+      <div class="select-btn">
+        <el-button type="primary" plain :loading="imageLoading" @click="handleRefresh">刷 新</el-button>
+      </div>
     </div>
     <div class="information">
       <div class="about">
@@ -19,43 +22,43 @@
         </div>
         <div class="about-influence">
           <div class="about-influence-item">
-            <div class="about-influence-num color4">19.03.2</div>
+            <div class="about-influence-num color4">{{ServerVersion}}</div>
             <div class="about-influece-label">docker版本</div>
           </div>
         </div>
         <div class="server-box">
           <div class="about-influence">
             <div class="about-influence-item">
-              <div class="about-influence-num color1">guojiaxing</div>
+              <div class="about-influence-num color1">{{Name}}</div>
               <div class="about-influece-label">name</div>
             </div>
           </div>
           <div class="about-influence">
             <div class="about-influence-item">
-              <div class="about-influence-num color1">CentOS Linux 7 (Core)</div>
+              <div class="about-influence-num color1">{{OperatingSystem}}</div>
               <div class="about-influece-label">操作系统</div>
             </div>
           </div>
           <div class="about-influence">
             <div class="about-influence-item">
-              <div class="about-influence-num color1">/var/lib/docker</div>
+              <div class="about-influence-num color1">{{DockerRootDir}}</div>
               <div class="about-influece-label">DockerRootDir</div>
             </div>
           </div>
           <div class="about-influence">
             <div class="about-influence-item">
-              <div class="about-influence-num color1">1</div>
+              <div class="about-influence-num color1">{{NCPU}}核</div>
               <div class="about-influece-label">cpu</div>
             </div>
             <div class="about-influence-item">
-              <div class="about-influence-num color2">2G</div>
+              <div class="about-influence-num color1">{{MemTotal}}G</div>
               <div class="about-influece-label">内存</div>
             </div>
           </div>
           <div class="about-influence">
             <div class="about-influence-item">
               <div class="about-influece-label">&nbsp; </div>
-              <div class="about-influece-label">created by 郭家兴</div>
+              <el-link type="primary" :underline="false" href="https://github.com/guojiaxing1995/docker-manager" target="_blank">created by 郭家兴</el-link>
             </div>
           </div>
         </div>
@@ -67,51 +70,60 @@
         </div>
         <div class="about-influence">
           <div class="about-influence-item">
-            <div class="about-influence-num color1">8</div>
+            <div class="about-influence-num color1">{{ContainersRunning}}</div>
             <div class="about-influece-label">运行中</div>
           </div>
           <div class="about-influence-item">
-            <div class="about-influence-num color2">2</div>
+            <div class="about-influence-num color2">{{ContainersStopped}}</div>
             <div class="about-influece-label">已停止</div>
           </div>
           <div class="about-influence-item">
-            <div class="about-influence-num color3">0</div>
+            <div class="about-influence-num color3">{{Containers}}</div>
             <div class="about-influece-label">总数</div>
           </div>
         </div>
         <el-tabs v-model="activeName" class="about-tabs" >
             <el-tab-pane label="运行中" class="about-tabs-item" name="one">
-              <div class="about-container-box">
+              <div class="about-container-box" v-loading="containerLoading">
                 <el-scrollbar style="height:100%">
                   <ul class="about-list" style="overflow: auto;">
-                    <li class="about-list-item">
+                    <li class="about-list-item" v-for="item of running_list" :key="item">
                       <el-tooltip effect="dark" placement="top-start">
-                        <div slot="content">撒旦发射点发射点螺ddddddddddddddddddddddddddddddddddddddddd丝钉咖啡碱老师的</div>
-                        <span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span>
+                        <div slot="content">{{item}}</div>
+                        <span>{{item}}</span>
                       </el-tooltip>
                     </li>
-                    <li class="about-list-item"><span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span></li>
-                    <li class="about-list-item"><span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span></li>
-                    <li class="about-list-item"><span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span></li>
-                    <li class="about-list-item"><span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span></li>
-                    <li class="about-list-item"><span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span></li>
-                    <li class="about-list-item"><span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span></li>
-                    <li class="about-list-item"><span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span></li>
-                    <li class="about-list-item"><span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span></li>
-                    <li class="about-list-item"><span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span></li>
-                    <li class="about-list-item"><span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span></li>
-                    <li class="about-list-item"><span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span></li>
-                    <li class="about-list-item"><span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span></li>
-                    <li class="about-list-item"><span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span></li>
                   </ul>
                 </el-scrollbar>
               </div>
             </el-tab-pane>
             <el-tab-pane label="已停止" class="about-tabs-item" name="two">
-              <div class="content">为什么程序员们愿意在GitHub上开源...</div>
+              <div class="about-container-box" v-loading="containerLoading">
+                <el-scrollbar style="height:100%">
+                  <ul class="about-list" style="overflow: auto;">
+                    <li class="about-list-item" v-for="item of exited_list" :key="item">
+                      <el-tooltip effect="dark" placement="top-start">
+                        <div slot="content">{{item}}</div>
+                        <span>{{item}}</span>
+                      </el-tooltip>
+                    </li>
+                  </ul>
+                </el-scrollbar>
+              </div>
             </el-tab-pane>
             <el-tab-pane label="所 有" class="about-tabs-item" name="three">
-              <div class="content">为什么程序员们愿意在么程序员们愿意上开么程序员们愿意么程序员们愿意么程序员们愿意么程序员们愿意源...</div>
+              <div class="about-container-box" v-loading="containerLoading">
+                <el-scrollbar style="height:100%">
+                  <ul class="about-list" style="overflow: auto;">
+                    <li class="about-list-item" v-for="item of all_list" :key="item">
+                      <el-tooltip effect="dark" placement="top-start">
+                        <div slot="content">{{item}}</div>
+                        <span>{{item}}</span>
+                      </el-tooltip>
+                    </li>
+                  </ul>
+                </el-scrollbar>
+              </div>
             </el-tab-pane>
         </el-tabs>
       </div>
@@ -122,32 +134,19 @@
         </div>
         <div class="about-influence">
           <div class="about-influence-item">
-            <div class="about-influence-num color3">15</div>
+            <div class="about-influence-num color3">{{Images}}</div>
             <div class="about-influece-label">总数</div>
           </div>
         </div>
-        <div class="about-box">
+        <div class="about-box" v-loading="imageLoading">
           <el-scrollbar style="height:100%">
             <ul class="about-list" style="overflow: auto;">
-              <li class="about-list-item">
+              <li class="about-list-item" v-for="item of imageList" :key="item">
                 <el-tooltip effect="dark" placement="top-start">
-                  <div slot="content">撒旦发射点发射点螺ddddddddddddddddddddddddddddddddddddddddd丝钉咖啡碱老师的</div>
-                  <span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span>
+                  <div slot="content">{{item}}</div>
+                  <span>{{item}}</span>
                 </el-tooltip>
               </li>
-              <li class="about-list-item"><span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span></li>
-              <li class="about-list-item"><span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span></li>
-              <li class="about-list-item"><span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span></li>
-              <li class="about-list-item"><span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span></li>
-              <li class="about-list-item"><span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span></li>
-              <li class="about-list-item"><span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span></li>
-              <li class="about-list-item"><span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span></li>
-              <li class="about-list-item"><span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span></li>
-              <li class="about-list-item"><span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span></li>
-              <li class="about-list-item"><span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span></li>
-              <li class="about-list-item"><span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span></li>
-              <li class="about-list-item"><span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span></li>
-              <li class="about-list-item"><span> 撒旦发射ssss丝ddddddddddddddddddddddddddddddddddddddddd顶顶顶顶</span></li>
             </ul>
           </el-scrollbar>
         </div>
@@ -164,30 +163,121 @@ export default {
     return {
       activeName: 'one',
       showTeam: false,
-      IPList: [{
-        value: 'www.guojiaxing.red',
-        label: 'www.guojiaxing.red',
-      }, {
-        value: '127.0.0.1',
-        label: '127.0.0.1',
-      }],
-      IP: 'www.guojiaxing.red',
+      hostList: [],
+      host: '',
+      Containers: 0,
+      ContainersRunning: 0,
+      ContainersStopped: 0,
+      DockerRootDir: '',
+      Images: 0,
+      MemTotal: 0,
+      NCPU: 0,
+      Name: '',
+      OperatingSystem: '',
+      ServerVersion: '',
+      imageList: [],
+      imageLoading: true,
+      containerLoading: true,
+      all_list: [],
+      exited_list: [],
+      running_list: [],
     }
   },
   mounted() {
     if (document.body.clientWidth > 1200 && document.body.clientWidth < 1330) {
       this.showTeam = true
     }
-    this.getAboutInfo()
+    this.getHostList()
+  },
+  watch: {
+    host() {
+      this.getAboutInfo()
+      this.getImageList()
+      this.getContainerList()
+    },
   },
   methods: {
+    handleRefresh() {
+      this.getAboutInfo()
+      this.getImageList()
+      this.getContainerList()
+    },
+    getHostList() {
+      axios.get('/v1/client/hosts')
+        .then((res) => {
+          const HostListData = res.data
+          this.hostList = HostListData
+          this.host = this.hostList[0].label
+          this.getAboutInfo()
+          this.getImageList()
+          this.getContainerList()
+        })
+        .catch(this.getHostListFail)
+    },
     getAboutInfo() {
-      axios.get('http://127.0.0.1:5005/v1/client/info')
+      axios.get('/v1/client/info', {
+        params: {
+          host: this.host,
+        },
+      })
         .then(this.getInfoSucc)
+        .catch(this.getInfoFail)
+    },
+    getImageList() {
+      this.imageLoading = true
+      axios.get('/v1/client/imageList', {
+        params: {
+          host: this.host,
+        },
+      })
+        .then(this.getImageListSucc)
+        .catch(this.getInfoFail)
+    },
+    getContainerList() {
+      this.containerLoading = true
+      axios.get('/v1/client/containerList', {
+        params: {
+          host: this.host,
+        },
+      })
+        .then(this.getContainerListSucc)
+        .catch(this.getInfoFail)
     },
     getInfoSucc(res) {
       const infoData = res.data
-      console.log(infoData)
+      this.Containers = infoData.Containers
+      this.ContainersRunning = infoData.ContainersRunning
+      this.ContainersStopped = infoData.ContainersStopped
+      this.DockerRootDir = infoData.DockerRootDir
+      this.Images = infoData.Images
+      this.MemTotal = infoData.MemTotal
+      this.NCPU = infoData.NCPU
+      this.Name = infoData.Name
+      this.OperatingSystem = infoData.OperatingSystem
+      this.ServerVersion = infoData.ServerVersion
+    },
+    getInfoFail(error) {
+      this.$message.error(error.response.data.msg)
+    },
+    getHostListSucc(res) {
+      const HostListData = res.data
+      this.hostList = HostListData
+      this.host = this.hostList[0].label
+    },
+    getHostListFail(error) {
+      console.log(error)
+    },
+    getImageListSucc(res) {
+      const imageData = res.data
+      this.imageList = imageData
+      this.imageLoading = false
+    },
+    getContainerListSucc(res) {
+      const ContainerData = res.data
+      this.all_list = ContainerData.all_list
+      this.exited_list = ContainerData.exited_list
+      this.running_list = ContainerData.running_list
+      this.containerLoading = false
     },
   },
 }
@@ -204,6 +294,9 @@ export default {
     margin-left: 25px;
     .select-label {
       width: 60px
+    }
+    .select-btn {
+      margin-left: 20px;
     }
   }
   .information {
@@ -295,7 +388,7 @@ export default {
               font-size: 20px;
               background: rgba(255,255,255,1);
               padding: 0px 0px;
-              color: #7dbcfc;
+              color: #3963BC;
               overflow: hidden;/*超出部分隐藏*/
               white-space: nowrap;/*不换行*/
               text-overflow: ellipsis;/*超出部分文字以...显示*/
@@ -324,7 +417,7 @@ export default {
               font-size: 20px;
               background: rgba(255,255,255,1);
               padding: 0px 0px;
-              color: #7dbcfc;
+              color: #3963BC;
               overflow: hidden;/*超出部分隐藏*/
               white-space: nowrap;/*不换行*/
               text-overflow: ellipsis;/*超出部分文字以...显示*/
