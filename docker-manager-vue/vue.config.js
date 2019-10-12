@@ -35,7 +35,18 @@ module.exports = {
       },
     },
   },
-  devServer: {},
+  devServer: {
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:5005/', //对应自己的接口
+        changeOrigin: true,
+        ws: true,
+        pathRewrite: {
+          '^/api': ''
+        }
+      }
+    }
+  },
   // node_modules依赖项es6语法未转换问题
   transpileDependencies: [
     'vuex-persist',

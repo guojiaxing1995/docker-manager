@@ -19,6 +19,9 @@ import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
 
 import '@/assets/styles/index.scss' // eslint-disable-line
 import '@/assets/styles/realize/element-variables.scss'
+import axios from 'axios'
+
+axios.defaults.baseURL = '/api/'
 
 Vue.config.productionTip = false
 

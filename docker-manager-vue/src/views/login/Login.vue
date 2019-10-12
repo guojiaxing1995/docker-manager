@@ -44,7 +44,6 @@ export default {
         nickname: 'super',
         password: '123456',
         confirm_password: '123456',
-        email: '2285901508@qq.com',
       },
     }
   },
