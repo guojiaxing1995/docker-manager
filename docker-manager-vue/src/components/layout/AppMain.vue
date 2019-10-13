@@ -3,7 +3,12 @@
     <div class="wrapper" id="wrapper">
       <transition name="fade-transform"
                   mode="out-in">
-        <router-view></router-view>
+        <div>
+          <keep-alive>
+              <router-view v-if="$route.meta.keepAlive"></router-view>
+          </keep-alive>
+          <router-view v-if="!$route.meta.keepAlive"></router-view>
+        </div>
       </transition>
     </div>
   </section>

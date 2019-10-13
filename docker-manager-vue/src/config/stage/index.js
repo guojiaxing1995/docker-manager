@@ -12,6 +12,7 @@ let homeRouter = [
     inNav: true,
     icon: 'iconfont iconziyuan',
     order: 0,
+    keepAlive: true,
   },
   {
     title: '镜像管理',
