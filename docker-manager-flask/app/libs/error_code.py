@@ -53,9 +53,9 @@ class RepeatFailed(APIException):
     msg = 'data is exist,cannot repeat'
     error_code = 1010
 
-class CaseIsDepend(APIException):
-    code = 401
-    msg = 'Use cases are dependent'
+class ImageNotFound(APIException):
+    code = 500
+    msg = '无此镜像，请刷新重试'
     error_code = 1016
 
 class FileTypeError(APIException):
@@ -63,7 +63,7 @@ class FileTypeError(APIException):
     msg = 'file type is error'
     error_code = 1017
 
-class DateNullError(APIException):
-    code = 401
-    msg = 'data is not null'
+class ImageUsed(APIException):
+    code = 500
+    msg = '镜像已被使用请删除容器后重试'
     error_code = 1018

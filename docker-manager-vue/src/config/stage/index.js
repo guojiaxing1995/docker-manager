@@ -23,6 +23,7 @@ let homeRouter = [
     inNav: true,
     icon: 'iconfont iconjingxiangguanli',
     order: 1,
+    keepAlive: true,
   },
   {
     title: '容器管理',
@@ -33,6 +34,7 @@ let homeRouter = [
     inNav: true,
     icon: 'iconfont iconrongqifuwuContainerServi',
     order: 2,
+    keepAlive: true,
   },
   {
     title: '日志管理',

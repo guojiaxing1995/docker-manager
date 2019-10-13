@@ -81,3 +81,20 @@
 [2019-10-12 15:53:16,766] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
 [2019-10-12 15:57:36,722] INFO in app.py - framework_error [line:17]: HTTPConnectionPool(host='www.guojiaxing.redw', port=2375): Max retries exceeded with url: /v1.35/info (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001F7CA02A048>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed',))
 [2019-10-12 15:59:30,237] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+[2019-10-13 11:35:53,570] INFO in app.py - framework_error [line:17]: 'str' object has no attribute 'splite'
+[2019-10-13 11:50:41,608] INFO in app.py - framework_error [line:17]: unsupported operand type(s) for +: 'int' and 'str'
+[2019-10-13 14:50:26,472] INFO in app.py - framework_error [line:17]: 'ClientForm' object has no attribute 'page'
+[2019-10-13 14:51:57,459] INFO in app.py - framework_error [line:17]: unsupported operand type(s) for -: 'str' and 'int'
+[2019-10-13 14:53:52,477] INFO in app.py - framework_error [line:17]: 'list' object has no attribute 'length'
+[2019-10-13 14:54:16,481] INFO in app.py - framework_error [line:17]: 'list' object has no attribute 'len'
+[2019-10-13 18:35:13,574] INFO in app.py - framework_error [line:17]: HTTPConnectionPool(host='127.0.0.1', port=2375): Max retries exceeded with url: /v1.35/images/json?only_ids=0&all=0 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000027DE30F6BE0>: Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。',))
+[2019-10-13 19:16:51,935] INFO in app.py - framework_error [line:17]: 'ClientForm' object has no attribute 'image'
+[2019-10-13 19:56:37,348] INFO in app.py - framework_error [line:17]: 404 Client Error: Not Found ("No such image: harbor.guojiaxing.red/public/travel:v1")
+[2019-10-13 20:00:15,390] INFO in app.py - framework_error [line:17]: 404 Client Error: Not Found ("No such image: mysql5.7:latest")
+[2019-10-13 20:00:26,352] INFO in app.py - framework_error [line:17]: 409 Client Error: Conflict ("conflict: unable to remove repository reference "mysql:5.7" (must force) - container 2bd08d15a483 is using its referenced image a1aa4f76fab9")
+[2019-10-13 21:14:15,326] INFO in app.py - framework_error [line:17]: 409 Client Error: Conflict ("conflict: unable to remove repository reference "mysql:5.7" (must force) - container 1b26f28695d3 is using its referenced image a1aa4f76fab9")
+[2019-10-13 21:20:01,556] INFO in app.py - framework_error [line:17]: 404 Client Error: Not Found ("No such image: mysql:5.71")
+[2019-10-13 21:26:44,403] INFO in app.py - framework_error [line:17]: type object 'APIError' has no attribute 'response'
+[2019-10-13 21:30:54,361] INFO in app.py - framework_error [line:17]: __str__() missing 1 required positional argument: 'self'
+[2019-10-13 21:33:16,316] INFO in app.py - framework_error [line:17]: 404 Client Error: Not Found ("No such image: mysql:5.71")
+[2019-10-13 21:33:37,314] INFO in app.py - framework_error [line:17]: 409 Client Error: Conflict ("conflict: unable to remove repository reference "mysql:5.7" (must force) - container 1b26f28695d3 is using its referenced image a1aa4f76fab9")

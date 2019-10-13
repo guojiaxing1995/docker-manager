@@ -14,5 +14,12 @@ from app.validators.base import BaseForm
 class ClientForm(BaseForm):
     host = StringField(validators=[DataRequired(message='不许为空'),length(min=5,max=32)])
 
+class ListForm(BaseForm):
+    host = StringField(validators=[DataRequired(message='不许为空'),length(min=5,max=32)])
+    page = IntegerField(default=1)
+
+class ImageForm(BaseForm):
+    host = StringField(validators=[DataRequired(message='不许为空'),length(min=5,max=32)])
+    image = StringField(validators=[DataRequired(message='不许为空')])
 
 
