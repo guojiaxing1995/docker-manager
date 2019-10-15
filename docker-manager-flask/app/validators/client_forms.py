@@ -5,7 +5,7 @@
 @File    : client_forms.py
 @Desc    :
 """
-from wtforms import StringField, IntegerField, Form
+from wtforms import StringField, IntegerField, Form, FormField, BooleanField
 from wtforms.validators import DataRequired, length, Email, Regexp, ValidationError
 
 from app.validators.base import BaseForm
@@ -17,9 +17,14 @@ class ClientForm(BaseForm):
 class ListForm(BaseForm):
     host = StringField(validators=[DataRequired(message='不许为空'),length(min=5,max=32)])
     page = IntegerField(default=1)
+    search = StringField()
 
 class ImageForm(BaseForm):
     host = StringField(validators=[DataRequired(message='不许为空'),length(min=5,max=32)])
     image = StringField(validators=[DataRequired(message='不许为空')])
-
-
+    command = StringField()
+    name = StringField()
+    links = StringField()
+    ports = StringField()
+    restart = BooleanField(default=True)
+    volumes = StringField()

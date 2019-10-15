@@ -1,17 +1,22 @@
 <template>
   <div class="container">
     <div class="select">
-      <label class="select-label">服务器</label>
-      <el-select v-model="host" filterable placeholder="请选择服务器">
-        <el-option
-          v-for="item in hostList"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-      <div class="select-btn">
-        <el-button type="primary" plain :loading="loading" @click="handleRefresh">刷 新</el-button>
+      <div class="select-left">
+        <label class="select-label">服务器</label>
+        <el-select v-model="host" filterable placeholder="请选择服务器">
+          <el-option
+            v-for="item in hostList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <!-- <div class="select-btn">
+          <el-button type="primary" plain :loading="loading" @click="handleRefresh">刷 新</el-button>
+        </div> -->
+      </div>
+      <div class="search">
+        <lin-search  placeholder="镜像名称或镜像id" :keyword="searchWord" @query="onQueryChange"/>
       </div>
     </div>
     <div class="table">
@@ -64,18 +69,16 @@
         <el-table-column
           width="180"
           fixed="right"
-          header-align="center"
-          align="center"
           label="操作">
           <template slot-scope="scope">
             <el-button
               size="mini"
               type="primary"
-              @click="handleEdit(scope.$index, scope.row)">启动</el-button>
+              @click="handleEdit(scope.$index, scope.row)">run</el-button>
             <el-button
               size="mini"
               type="danger"
-              @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+              @click="handleDelete(scope.$index, scope.row)">rmi</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -96,8 +99,12 @@
 
 <script>
 import axios from 'axios'
+import LinSearch from '@/components/base/search/lin-search'
 
 export default {
+  components: {
+    LinSearch,
+  },
   data() {
     return {
       loading: false,
@@ -107,6 +114,7 @@ export default {
       page: 1,
       pages: 1,
       total: 0,
+      searchWord: '',
     }
   },
   mounted() {
@@ -120,14 +128,20 @@ export default {
       this.page = 1
       this.total = 0
       this.pages = 1
+      this.searchWord = ''
       this.getImageList()
     },
   },
   methods: {
-    handleRefresh() {
+    // handleRefresh() {
+    //   this.page = 1
+    //   this.total = 0
+    //   this.pages = 1
+    //   this.getImageList()
+    // },
+    onQueryChange(query) {
+      this.searchWord = query.trim()
       this.page = 1
-      this.total = 0
-      this.pages = 1
       this.getImageList()
     },
     getHostList() {
@@ -149,6 +163,7 @@ export default {
         params: {
           host: this.host,
           page: this.page,
+          search: this.searchWord,
         },
       })
         .then(this.getImageListSucc)
@@ -216,11 +231,22 @@ export default {
     display: flex;
     align-items: center;
     margin-top: 20px;
-    .select-label {
-      width: 60px
+    justify-content: space-between;
+    .select-left{
+      display: flex;
+      align-items: center;
+      .select-label {
+        width: 60px
+      }
+      .select-btn {
+        margin-left: 20px;
+      }
     }
-    .select-btn {
-      margin-left: 20px;
+    .search {
+      float: right;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
   }
   .table {

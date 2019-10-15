@@ -1,3 +1,4 @@
+import json
 import math
 
 from docker.errors import APIError, ImageNotFound
@@ -17,6 +18,7 @@ def list():
     form = ListForm().validate_for_api()
     host = form.host.data
     page = int(form.page.data)
+    search = form.search.data
     client = docker.DockerClient(base_url='tcp://' + host + ':2375')
     images = client.images.list()
     image_list = []
@@ -28,14 +30,19 @@ def list():
             image_item['name'] = image_name
             image_item['tag'] = image_tag
             image_item['id'] = i.short_id.split(':')[1]
-            image_item['created'] = i.attrs['Created'].split('.')[0]
+            image_item['created'] = i.attrs['Created'].split('.')[0].replace('T',' ')
             if i.attrs['Size']/1000000 > 1:
                 image_item['size'] = str(round(i.attrs['Size']/1000000)) + 'MB'
             else:
                 image_item['size'] = str(round(i.attrs['Size'] / 1000)) + 'KB'
             image_item['DockerVersion'] = i.attrs['DockerVersion']
             image_list.append(image_item)
-
+    if search:
+        image_list_new = []
+        for i in image_list:
+            if search in i['name'] or search in i['id']:
+                image_list_new.append(i)
+        image_list = image_list_new
     PAGE_NUM = current_app.config['PAGE_NUM']
     start = (page - 1) * PAGE_NUM
     end = page * PAGE_NUM
@@ -67,3 +74,49 @@ def delete():
     client.close()
 
     return DeleteSuccess(msg='镜像删除成功')
+
+@api.route('/run',methods=['POST'])
+def run():
+    form = ImageForm().validate_for_api()
+    host = form.host.data
+    image = form.image.data
+    command = form.command.data
+    name = form.name.data
+    restart = form.restart.data
+    links = form.links.data
+    ports = form.ports.data
+    volumes = form.volumes.data
+    if links:
+        links_dick = {}
+        for link in links.split(','):
+            links_dick[link.split(':')[0]] = link.split(':')[1]
+        links = links_dick
+
+    if ports:
+        ports_dick = {}
+        for port in ports.split(','):
+            ports_dick[port.split(':')[1]] = port.split(':')[0]
+        ports = ports_dick
+
+    if volumes:
+        volumes_dick = {}
+        for volume in volumes.split(','):
+            volumes_dick[volume.split(':')[0]] = {'bind': volume.split(':')[1], 'mode': 'rw'}
+        volumes = volumes_dick
+
+    if restart:
+        restart_policy = {"Name": "always"}
+    else:
+        restart_policy = None
+
+    client = docker.DockerClient(base_url='tcp://' + host + ':2375')
+    container = client.containers.run(image,command,detach=True,name=name,links=links,ports=ports,restart_policy=restart_policy,volumes=volumes)
+
+    id = container.short_id
+    name = container.attrs['Name'][1:]
+    container = {
+        "id": id,
+        "name": name
+    }
+    client.close()
+    return jsonify(container)
