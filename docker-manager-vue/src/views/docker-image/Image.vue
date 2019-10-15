@@ -71,14 +71,20 @@
           fixed="right"
           label="操作">
           <template slot-scope="scope">
-            <el-button
-              size="mini"
-              type="primary"
-              @click="handleEdit(scope.$index, scope.row)">run</el-button>
-            <el-button
-              size="mini"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)">rmi</el-button>
+            <el-tooltip effect="dark" placement="top-start">
+              <div slot="content">docker run</div>
+                <el-button
+                  size="mini"
+                  type="primary"
+                  @click="handleEdit(scope.$index, scope.row)">运行</el-button>
+            </el-tooltip>
+            <el-tooltip effect="dark" placement="top-start">
+              <div slot="content">docker rmi</div>
+                <el-button
+                  size="mini"
+                  type="danger"
+                  @click="handleEdit(scope.$index, scope.row)">删除</el-button>
+            </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
