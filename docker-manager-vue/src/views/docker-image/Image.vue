@@ -16,7 +16,7 @@
         </div> -->
       </div>
       <div class="search">
-        <lin-search  placeholder="镜像名称或镜像id" :keyword="searchWord" @query="onQueryChange"/>
+        <lin-search  placeholder="镜像名称或镜像id" :searchKeyWord="searchWord" @query="onQueryChange"/>
       </div>
     </div>
     <div class="table">

@@ -15,13 +15,14 @@ export default {
       type: String,
       default: '请输入内容',
     },
-    keyword: {
+    searchKeyWord: {
       type: String,
       default: '',
     },
   },
   data() {
     return {
+      keyword: this.searchKeyWord,
     }
   },
   created() {
