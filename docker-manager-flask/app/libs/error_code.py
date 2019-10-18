@@ -67,3 +67,8 @@ class ImageUsed(APIException):
     code = 500
     msg = '镜像已被使用请删除容器后重试'
     error_code = 1018
+
+class DockerRunFail(APIException):
+    code = 500
+    msg = '容器运行失败，请检查参数后重试'
+    error_code = 1020

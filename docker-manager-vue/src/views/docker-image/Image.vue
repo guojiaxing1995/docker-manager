@@ -1,5 +1,77 @@
 <template>
   <div class="container">
+    <el-dialog
+      title="docker run"
+      :visible.sync="runDialogVisible"
+      width="33%"
+      :show-close="false"
+      @close="closeRunForm">
+      <div class="el-dialog-div">
+        <el-scrollbar style="height:100%">
+          <!-- <div class="run-item">
+            <div class="run-item-left"></div>
+            <div class="run-item-right"></div>
+          </div> -->
+        <el-form label-position="right" label-width="80px" :model="runForm">
+          <el-form-item label="名称">
+            <el-input class="run-input" placeholder="容器名称" v-model="runForm.name"></el-input>
+          </el-form-item>
+          <el-form-item label="运行命令">
+            <el-input class="run-input" placeholder="command" v-model="runForm.command"></el-input>
+          </el-form-item>
+          <el-form-item label="端口映射">
+            <i class="el-icon-circle-plus-outline" v-if="!runForm.portList.length" @click="runPortContent"></i>
+            <el-row class="input-row" v-for="(item,index) in runForm.portList" :key="index">
+              <el-input
+                v-model="item.text"
+                placeholder="宿主机端口:容器端口"
+                size="medium"
+                ></el-input>
+              <div class="input-row-icon">
+                <i class="el-icon-remove-outline" @click="removePortContent(index)"></i>
+                <i class="el-icon-circle-plus-outline" v-if="index === runForm.portList.length-1" @click="runPortContent"></i>
+              </div>
+            </el-row>
+          </el-form-item>
+          <el-form-item label="数据挂载">
+            <i class="el-icon-circle-plus-outline" v-if="!runForm.volumeList.length" @click="runVolumeContent"></i>
+            <el-row class="input-row" v-for="(item,index) in runForm.volumeList" :key="index">
+              <el-input
+                v-model="item.text"
+                placeholder="宿主机路径:容器路径"
+                size="medium"
+                ></el-input>
+              <div class="input-row-icon">
+                <i class="el-icon-remove-outline" @click="removeVolumeContent(index)"></i>
+                <i class="el-icon-circle-plus-outline" v-if="index === runForm.volumeList.length-1" @click="runVolumeContent"></i>
+              </div>
+            </el-row>
+          </el-form-item>
+          <el-form-item label="连接容器">
+            <i class="el-icon-circle-plus-outline" v-if="!runForm.linkList.length" @click="runLinkContent"></i>
+            <el-row class="input-row" v-for="(item,index) in runForm.linkList" :key="index">
+              <el-input
+                v-model="item.text"
+                placeholder="容器名称:别名"
+                size="medium"
+                ></el-input>
+              <div class="input-row-icon">
+                <i class="el-icon-remove-outline" @click="removeLinkContent(index)"></i>
+                <i class="el-icon-circle-plus-outline" v-if="index === runForm.linkList.length-1" @click="runLinkContent"></i>
+              </div>
+            </el-row>
+          </el-form-item>
+          <el-form-item label="重启机制">
+            <el-switch v-model="runForm.restart" active-text="总是重启" inactive-text="不重启"></el-switch>
+          </el-form-item>
+        </el-form>
+        </el-scrollbar>
+      </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="runDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="runDockerImage" :loading="runDialogLoading">确 定</el-button>
+        </span>
+    </el-dialog>
     <div class="select">
       <div class="select-left">
         <label class="select-label">服务器</label>
@@ -76,14 +148,14 @@
                 <el-button
                   size="mini"
                   type="primary"
-                  @click="handleEdit(scope.$index, scope.row)">运行</el-button>
+                  @click="handleRun(scope.$index, scope.row)">运行</el-button>
             </el-tooltip>
             <el-tooltip effect="dark" placement="top-start">
               <div slot="content">docker rmi</div>
                 <el-button
                   size="mini"
                   type="danger"
-                  @click="handleEdit(scope.$index, scope.row)">删除</el-button>
+                  @click="handleDelete(scope.$index, scope.row)">删除</el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -121,6 +193,17 @@ export default {
       pages: 1,
       total: 0,
       searchWord: '',
+      runDialogVisible: false,
+      runDialogLoading: false,
+      runForm: {
+        image: '',
+        name: null,
+        command: null,
+        linkList: [],
+        portList: [],
+        volumeList: [],
+        restart: true,
+      },
     }
   },
   mounted() {
@@ -145,24 +228,127 @@ export default {
     //   this.pages = 1
     //   this.getImageList()
     // },
+    // docker run
+    runDockerImage() {
+      this.runDialogLoading = true
+      const runDate = {}
+      runDate.host = this.host
+      runDate.image = this.runForm.image
+      runDate.name = this.runForm.name
+      runDate.command = this.runForm.command
+      runDate.restart = this.runForm.restart
+      // 端口列表处理
+      if (this.runForm.portList) {
+        let ports = ''
+        this.runForm.portList.forEach((item) => {
+          if (item.text !== '') {
+            ports = ports + ',' + item.text
+          }
+        })
+        ports = ports.substr(1)
+        runDate.ports = ports
+      } else {
+        runDate.ports = ''
+      }
+      // 挂载列表处理
+      if (this.runForm.volumeList) {
+        let volumes = ''
+        this.runForm.volumeList.forEach((item) => {
+          if (item.text !== '') {
+            volumes = volumes + ',' + item.text
+          }
+        })
+        volumes = volumes.substr(1)
+        runDate.volumes = volumes
+      } else {
+        runDate.volumes = ''
+      }
+      // link列表处理
+      if (this.runForm.linkList) {
+        let links = ''
+        this.runForm.linkList.forEach((item) => {
+          if (item.text !== '') {
+            links = links + ',' + item.text
+          }
+        })
+        links = links.substr(1)
+        runDate.links = links
+      } else {
+        runDate.links = ''
+      }
+      axios.post('/v1/image/run', runDate)
+        .then((res) => {
+          console.log(res.data)
+          this.runDialogLoading = false
+          this.runDialogVisible = false
+          this.$message({
+            type: 'success',
+            message: '运行成功',
+          })
+        })
+        .catch((error) => {
+          this.$message.error(error.response.data.msg)
+          this.runDialogLoading = false
+        })
+    },
+    // 关闭容器运行弹框时重置表单
+    closeRunForm() {
+      this.runForm = {
+        image: '',
+        name: null,
+        command: null,
+        linkList: [],
+        portList: [],
+        volumeList: [],
+        restart: true,
+      }
+    },
+    runPortContent() {
+      this.runForm.portList.push({
+        text: '',
+        type: 'plus',
+      })
+    },
+    removePortContent(index) {
+      this.runForm.portList.splice(index, 1)
+    },
+    runVolumeContent() {
+      this.runForm.volumeList.push({
+        text: '',
+        type: 'plus',
+      })
+    },
+    removeVolumeContent(index) {
+      this.runForm.volumeList.splice(index, 1)
+    },
+    runLinkContent() {
+      this.runForm.linkList.push({
+        text: '',
+        type: 'plus',
+      })
+    },
+    removeLinkContent(index) {
+      this.runForm.linkList.splice(index, 1)
+    },
     onQueryChange(query) {
       this.searchWord = query.trim()
       this.page = 1
       this.getImageList()
     },
+    // 获取host列表
     getHostList() {
       axios.get('/v1/client/hosts')
         .then((res) => {
           const HostListData = res.data
           this.hostList = HostListData
           this.host = this.hostList[0].label
-          this.getImageList()
         })
         .catch(this.getHostListFail)
     },
     getHostListFail(error) {
       this.$message.error(error.response.data.msg)
     },
+    // 获取镜像列表
     getImageList() {
       this.loading = true
       axios.get('/v1/image/list', {
@@ -186,6 +372,11 @@ export default {
       this.page = val
       this.getImageList()
     },
+    handleRun(index, val) {
+      this.runDialogVisible = true
+      this.runForm.image = val.name + ':' + val.tag
+    },
+    // 点击删除按钮
     handleDelete(index, val) {
       this
         .$confirm('此操作将永久删除该镜像, 是否继续?', '提示', {
@@ -233,6 +424,55 @@ export default {
 .container {
   padding: 40px;
   height: 100%;
+  .el-dialog-div{
+    height: 50vh;
+    overflow: auto;
+    .run-input{
+      width: 90%;
+    }
+    .el-icon-circle-plus-outline{
+      font-size: 20px;
+    }
+    .input-row{
+      display: flex;
+      -webkit-box-pack: justify;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      .input-row-icon{
+        width: 20%;
+        display: flex;
+        align-items:center;
+        justify-content: flex-start;
+        .el-icon-remove-outline{
+          margin-left: 10px;
+          font-size: 20px;
+          color: #c6848e;
+        }
+        .el-icon-circle-plus-outline{
+          margin-left: 10px;
+          font-size: 20px;
+        }
+      }
+    }
+    .run-item {
+      display: flex;
+      height: 20px;
+      .run-item-left {
+        background: red;
+        width: 38.2%;
+      }
+      .run-item-right {
+        background: green;
+        width: 61.8%;
+      }
+    }
+  }
+  .el-dialog-div /deep/ .el-form-item__content {
+    margin-bottom: 10px;
+  }
+  .el-dialog-div /deep/ .el-scrollbar__wrap {
+    overflow-x: hidden;
+  }
   .select {
     display: flex;
     align-items: center;
@@ -257,6 +497,15 @@ export default {
   }
   .table {
     margin-top: 40px;
+  }
+  // 滚动条优化
+  .table /deep/ .el-table__body-wrapper::-webkit-scrollbar {
+    width: 6px;
+    height: 10px;
+  }
+  .table /deep/ .el-table__body-wrapper::-webkit-scrollbar-thumb {
+    background-color: #ddd;
+    border-radius: 5px;
   }
   .pagination {
     display: flex;

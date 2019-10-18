@@ -4,7 +4,7 @@ import math
 from docker.errors import APIError, ImageNotFound
 from flask import jsonify, current_app
 
-from app.libs.error_code import Success, ImageUsed, DeleteSuccess
+from app.libs.error_code import Success, ImageUsed, DeleteSuccess, DockerRunFail
 from app.libs.error_code import ImageNotFound as NotFound
 from app.libs.redprint import Redprint
 import docker
@@ -91,18 +91,24 @@ def run():
         for link in links.split(','):
             links_dick[link.split(':')[0]] = link.split(':')[1]
         links = links_dick
+    else:
+        links = None
 
     if ports:
         ports_dick = {}
         for port in ports.split(','):
             ports_dick[port.split(':')[1]] = port.split(':')[0]
         ports = ports_dick
+    else:
+        ports = None
 
     if volumes:
         volumes_dick = {}
         for volume in volumes.split(','):
             volumes_dick[volume.split(':')[0]] = {'bind': volume.split(':')[1], 'mode': 'rw'}
         volumes = volumes_dick
+    else:
+        volumes = None
 
     if restart:
         restart_policy = {"Name": "always"}
@@ -110,13 +116,17 @@ def run():
         restart_policy = None
 
     client = docker.DockerClient(base_url='tcp://' + host + ':2375')
-    container = client.containers.run(image,command,detach=True,name=name,links=links,ports=ports,restart_policy=restart_policy,volumes=volumes)
-
-    id = container.short_id
-    name = container.attrs['Name'][1:]
-    container = {
-        "id": id,
-        "name": name
-    }
-    client.close()
-    return jsonify(container)
+    try:
+        container = client.containers.run(image, command, detach=True, name=name, links=links, ports=ports,
+                                          restart_policy=restart_policy, volumes=volumes)
+        id = container.short_id
+        name = container.attrs['Name'][1:]
+        container = {
+            "id": id,
+            "name": name
+        }
+        client.close()
+        return jsonify(container)
+    except Exception:
+        client.close()
+        return DockerRunFail()
