@@ -138,6 +138,7 @@
             :value="item.value">
           </el-option>
         </el-select>
+        <div><i class="el-icon-refresh" @click="handleRefresh"></i></div>
         <div class="docker-hub-btn"><el-button type="primary" plain @click="handleHubBtn" >DockerHub</el-button></div>
       </div>
       <div class="select-right">
@@ -195,6 +196,7 @@
         </el-table-column>
         <el-table-column
           width="180"
+          align="center"
           fixed="right"
           label="操作">
           <template slot-scope="scope">
@@ -203,6 +205,7 @@
                 <el-button
                   size="mini"
                   type="primary"
+                  style="margin:auto"
                   @click="handleRun(scope.$index, scope.row)">运行</el-button>
             </el-tooltip>
             <el-tooltip effect="dark" placement="top-start">
@@ -210,6 +213,7 @@
                 <el-button
                   size="mini"
                   type="danger"
+                  style="margin:auto"
                   @click="handleDelete(scope.$index, scope.row)">删除</el-button>
             </el-tooltip>
           </template>
@@ -281,12 +285,12 @@ export default {
     },
   },
   methods: {
-    // handleRefresh() {
-    //   this.page = 1
-    //   this.total = 0
-    //   this.pages = 1
-    //   this.getImageList()
-    // },
+    handleRefresh() {
+      this.page = 1
+      this.total = 0
+      this.pages = 1
+      this.getImageList()
+    },
     // docker run
     searchDockerHub() {
       this.searchLoading = true
@@ -546,7 +550,7 @@ export default {
   padding: 40px;
   height: 100%;
   .hub-search {
-    padding-top: 10px;
+    padding-top: 20px;
     display: flex;
     justify-content: center;
   }
@@ -615,8 +619,12 @@ export default {
     .select-left{
       display: flex;
       align-items: center;
-      .docker-hub-btn{
+      .el-icon-refresh{
+        font-size: 20px;
         margin-left: 20px;
+      }
+      .docker-hub-btn{
+        margin-left: 60px;
       }
       .select-label {
         width: 60px

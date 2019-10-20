@@ -11,7 +11,8 @@
         </el-option>
       </el-select>
       <div class="select-btn">
-        <el-button type="primary" plain :loading="imageLoading" @click="handleRefresh">刷 新</el-button>
+        <!-- <el-button type="primary" plain :loading="imageLoading" @click="handleRefresh">刷 新</el-button> -->
+        <i class="el-icon-refresh" @click="handleRefresh"></i>
       </div>
     </div>
     <div class="information">
@@ -297,6 +298,9 @@ export default {
     }
     .select-btn {
       margin-left: 20px;
+      .el-icon-refresh {
+        font-size: 20px;
+      }
     }
   }
   .information {
