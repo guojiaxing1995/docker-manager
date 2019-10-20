@@ -29,6 +29,7 @@ module.exports = {
     'no-restricted-syntax': 0,
     'class-methods-use-this': 'off',
     'consistent-return': 'off',
+    'prefer-template': 'off'
   },
   parserOptions: {
     parser: 'babel-eslint',

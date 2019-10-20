@@ -15,10 +15,14 @@ export default {
       type: String,
       default: '请输入内容',
     },
+    searchKeyWord: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
-      keyword: '',
+      keyword: this.searchKeyWord,
     }
   },
   created() {
@@ -52,7 +56,7 @@ export default {
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
   border-right: none;
-  width: 150px;
+  width: 155px;
   transition: all 0.2s linear;
 
   &:focus {
