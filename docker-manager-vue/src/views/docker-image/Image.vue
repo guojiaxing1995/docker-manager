@@ -72,6 +72,61 @@
           <el-button type="primary" @click="runDockerImage" :loading="runDialogLoading">确 定</el-button>
         </span>
     </el-dialog>
+    <el-dialog
+      title="docker run"
+      :visible.sync="searchDialogVisible"
+      width="50%"
+      center
+      @close="closeSearchDialog">
+      <span slot="title">
+        <div class="hub-search">
+          <el-input style="width:40%" placeholder="请输入镜像名称" v-model="searchHubName">
+            <el-button slot="append" :disabled="searchLoading" @click="searchDockerHub">docker search</el-button>
+          </el-input>
+        </div>
+      </span>
+      <div class="el-dialog-div" v-loading="searchLoading">
+        <el-scrollbar style="height:100%">
+          <!-- <div class="run-item">
+            <div class="run-item-left"></div>
+            <div class="run-item-right"></div>
+          </div> -->
+          <el-table :data="searchResultData">
+            <el-table-column prop="name" label="镜像名称" min-width="220">
+              <template slot-scope="scope">
+                <el-tooltip effect="dark" placement="top-start" v-if="scope.row.description">
+                  <div slot="content">{{scope.row.description}}</div>
+                  <span>{{scope.row.name}}</span>
+                </el-tooltip>
+                <span v-else>{{scope.row.name}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="官方镜像" width="140" align="center">
+              <template slot-scope="scope">
+                <i v-if="scope.row.is_official" class="el-icon-star-on"></i>
+              </template>
+            </el-table-column>
+            <el-table-column label="TAG" width="180">
+              <template slot-scope="scope">
+                <el-input placeholder="latest" v-model="scope.row.tag"></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作" width="140" align="center">
+              <template slot-scope="scope">
+                <el-tooltip effect="dark" placement="top-start">
+                  <div slot="content">docker pull</div>
+                    <el-button
+                      type="primary"
+                      style="margin:auto"
+                      size="mini"
+                      @click="handlePull(scope.$index, scope.row)">拉取</el-button>
+                </el-tooltip>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-scrollbar>
+      </div>
+    </el-dialog>
     <div class="select">
       <div class="select-left">
         <label class="select-label">服务器</label>
@@ -83,12 +138,12 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <!-- <div class="select-btn">
-          <el-button type="primary" plain :loading="loading" @click="handleRefresh">刷 新</el-button>
-        </div> -->
+        <div class="docker-hub-btn"><el-button type="primary" plain @click="handleHubBtn" >DockerHub</el-button></div>
       </div>
-      <div class="search">
-        <lin-search  placeholder="镜像名称或镜像id" :searchKeyWord="searchWord" @query="onQueryChange"/>
+      <div class="select-right">
+        <div class="search">
+          <lin-search  placeholder="镜像名称或镜像id" :searchKeyWord="searchWord" @query="onQueryChange"/>
+        </div>
       </div>
     </div>
     <div class="table">
@@ -194,7 +249,9 @@ export default {
       total: 0,
       searchWord: '',
       runDialogVisible: false,
+      searchDialogVisible: false,
       runDialogLoading: false,
+      searchLoading: false,
       runForm: {
         image: '',
         name: null,
@@ -204,6 +261,8 @@ export default {
         volumeList: [],
         restart: true,
       },
+      searchResultData: [],
+      searchHubName: '',
     }
   },
   mounted() {
@@ -229,6 +288,30 @@ export default {
     //   this.getImageList()
     // },
     // docker run
+    searchDockerHub() {
+      this.searchLoading = true
+      axios.get('/v1/image/search', {
+        params: {
+          host: this.host,
+          image: this.searchHubName,
+        },
+      })
+        .then((res) => {
+          this.searchLoading = false
+          this.searchResultData = res.data
+        })
+        .catch((error) => {
+          this.searchLoading = false
+          if (error.response.data.error_code && error.response.data.error_code === 1000) {
+            this.$message.error(error.response.data.msg.image[0])
+          } else {
+            this.$message.error(error.response.data.msg)
+          }
+        })
+    },
+    handleHubBtn() {
+      this.searchDialogVisible = true
+    },
     runDockerImage() {
       this.runDialogLoading = true
       const runDate = {}
@@ -291,6 +374,10 @@ export default {
           this.runDialogLoading = false
         })
     },
+    closeSearchDialog() {
+      this.searchHubName = ''
+      this.searchResultData = []
+    },
     // 关闭容器运行弹框时重置表单
     closeRunForm() {
       this.runForm = {
@@ -333,6 +420,8 @@ export default {
     onQueryChange(query) {
       this.searchWord = query.trim()
       this.page = 1
+      this.pages = 1
+      this.total = 0
       this.getImageList()
     },
     // 获取host列表
@@ -389,6 +478,36 @@ export default {
           this.removeImage(image)
         })
     },
+    // 镜像拉取
+    handlePull(index, val) {
+      this.searchLoading = true
+      axios.get('/v1/image/pull', {
+        params: {
+          host: this.host,
+          image: val.name,
+          tag: val.tag,
+        },
+      })
+        .then((res) => {
+          this.searchLoading = false
+          this.searchDialogVisible = false
+          this.loading = true
+          this.$message({
+            type: 'success',
+            message: res.data.msg,
+          })
+          this.page = 1
+          this.pages = 1
+          this.total = 0
+          this.getImageList()
+        })
+        .catch((error) => {
+          this.searchLoading = false
+          if (error.response.data.error_code === 1021) {
+            this.$message.error(error.response.data.msg)
+          }
+        })
+    },
     removeImage(val) {
       this.loading = true
       axios.get('/v1/image/delete', {
@@ -404,6 +523,8 @@ export default {
               message: res.data.msg,
             })
             this.page = 1
+            this.pages = 1
+            this.total = 0
             this.getImageList()
           }
         })
@@ -424,9 +545,19 @@ export default {
 .container {
   padding: 40px;
   height: 100%;
+  .hub-search {
+    padding-top: 10px;
+    display: flex;
+    justify-content: center;
+  }
   .el-dialog-div{
     height: 50vh;
     overflow: auto;
+    .el-icon-star-on{
+      margin: auto;
+      font-size: 20px;
+      color: #FFBE4D;
+    }
     .run-input{
       width: 90%;
     }
@@ -467,6 +598,9 @@ export default {
       }
     }
   }
+  .el-dialog-div /deep/ .el-table {
+    border: 0px;
+  }
   .el-dialog-div /deep/ .el-form-item__content {
     margin-bottom: 10px;
   }
@@ -481,6 +615,9 @@ export default {
     .select-left{
       display: flex;
       align-items: center;
+      .docker-hub-btn{
+        margin-left: 20px;
+      }
       .select-label {
         width: 60px
       }
@@ -488,7 +625,7 @@ export default {
         margin-left: 20px;
       }
     }
-    .search {
+    .select-right {
       float: right;
       display: flex;
       justify-content: space-between;

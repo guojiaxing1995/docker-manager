@@ -4,12 +4,12 @@ import math
 from docker.errors import APIError, ImageNotFound
 from flask import jsonify, current_app
 
-from app.libs.error_code import Success, ImageUsed, DeleteSuccess, DockerRunFail
+from app.libs.error_code import Success, ImageUsed, DeleteSuccess, DockerRunFail, PullFail
 from app.libs.error_code import ImageNotFound as NotFound
 from app.libs.redprint import Redprint
 import docker
 
-from app.validators.client_forms import ClientForm, ImageForm, ListForm
+from app.validators.client_forms import ClientForm, ImageForm, ListForm, PullForm
 
 api = Redprint('image')
 
@@ -130,3 +130,32 @@ def run():
     except Exception:
         client.close()
         return DockerRunFail()
+
+@api.route('/search',methods=['GET'])
+def search():
+    form = ImageForm().validate_for_api()
+    host = form.host.data
+    image = form.image.data
+    client = docker.DockerClient(base_url='tcp://' + host + ':2375')
+    images = client.images.search(image)
+    for i in images:
+        i['tag'] = ''
+    client.close()
+    return jsonify(images)
+
+@api.route('/pull',methods=['GET'])
+def pull():
+    form = PullForm().validate_for_api()
+    host = form.host.data
+    image = form.image.data
+    tag = form.tag.data
+    client = docker.DockerClient(base_url='tcp://' + host + ':2375')
+    if not tag:
+        tag = None
+    try:
+        client.images.pull(image,tag)
+    except Exception:
+        client.close()
+        return PullFail()
+    client.close()
+    return Success(msg='镜像拉取成功')

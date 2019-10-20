@@ -72,3 +72,8 @@ class DockerRunFail(APIException):
     code = 500
     msg = '容器运行失败，请检查参数后重试'
     error_code = 1020
+
+class PullFail(APIException):
+    code = 500
+    msg = '拉取镜像失败，请检查tag后重试'
+    error_code = 1021

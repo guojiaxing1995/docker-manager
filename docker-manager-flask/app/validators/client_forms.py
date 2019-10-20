@@ -28,3 +28,10 @@ class ImageForm(BaseForm):
     ports = StringField()
     restart = BooleanField(default=True)
     volumes = StringField()
+
+class PullForm(BaseForm):
+    host = StringField(validators=[DataRequired(message='不许为空'),length(min=5,max=32)])
+    image = StringField(validators=[DataRequired(message='不许为空')])
+    tag = StringField()
+
+
