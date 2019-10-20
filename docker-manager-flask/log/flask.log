@@ -81,3 +81,64 @@
 [2019-10-12 15:53:16,766] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
 [2019-10-12 15:57:36,722] INFO in app.py - framework_error [line:17]: HTTPConnectionPool(host='www.guojiaxing.redw', port=2375): Max retries exceeded with url: /v1.35/info (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001F7CA02A048>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed',))
 [2019-10-12 15:59:30,237] INFO in app.py - framework_error [line:17]: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+[2019-10-13 11:35:53,570] INFO in app.py - framework_error [line:17]: 'str' object has no attribute 'splite'
+[2019-10-13 11:50:41,608] INFO in app.py - framework_error [line:17]: unsupported operand type(s) for +: 'int' and 'str'
+[2019-10-13 14:50:26,472] INFO in app.py - framework_error [line:17]: 'ClientForm' object has no attribute 'page'
+[2019-10-13 14:51:57,459] INFO in app.py - framework_error [line:17]: unsupported operand type(s) for -: 'str' and 'int'
+[2019-10-13 14:53:52,477] INFO in app.py - framework_error [line:17]: 'list' object has no attribute 'length'
+[2019-10-13 14:54:16,481] INFO in app.py - framework_error [line:17]: 'list' object has no attribute 'len'
+[2019-10-13 18:35:13,574] INFO in app.py - framework_error [line:17]: HTTPConnectionPool(host='127.0.0.1', port=2375): Max retries exceeded with url: /v1.35/images/json?only_ids=0&all=0 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000027DE30F6BE0>: Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。',))
+[2019-10-13 19:16:51,935] INFO in app.py - framework_error [line:17]: 'ClientForm' object has no attribute 'image'
+[2019-10-13 19:56:37,348] INFO in app.py - framework_error [line:17]: 404 Client Error: Not Found ("No such image: harbor.guojiaxing.red/public/travel:v1")
+[2019-10-13 20:00:15,390] INFO in app.py - framework_error [line:17]: 404 Client Error: Not Found ("No such image: mysql5.7:latest")
+[2019-10-13 20:00:26,352] INFO in app.py - framework_error [line:17]: 409 Client Error: Conflict ("conflict: unable to remove repository reference "mysql:5.7" (must force) - container 2bd08d15a483 is using its referenced image a1aa4f76fab9")
+[2019-10-13 21:14:15,326] INFO in app.py - framework_error [line:17]: 409 Client Error: Conflict ("conflict: unable to remove repository reference "mysql:5.7" (must force) - container 1b26f28695d3 is using its referenced image a1aa4f76fab9")
+[2019-10-13 21:20:01,556] INFO in app.py - framework_error [line:17]: 404 Client Error: Not Found ("No such image: mysql:5.71")
+[2019-10-13 21:26:44,403] INFO in app.py - framework_error [line:17]: type object 'APIError' has no attribute 'response'
+[2019-10-13 21:30:54,361] INFO in app.py - framework_error [line:17]: __str__() missing 1 required positional argument: 'self'
+[2019-10-13 21:33:16,316] INFO in app.py - framework_error [line:17]: 404 Client Error: Not Found ("No such image: mysql:5.71")
+[2019-10-13 21:33:37,314] INFO in app.py - framework_error [line:17]: 409 Client Error: Conflict ("conflict: unable to remove repository reference "mysql:5.7" (must force) - container 1b26f28695d3 is using its referenced image a1aa4f76fab9")
+[2019-10-13 22:36:39,297] INFO in app.py - framework_error [line:17]: HTTPConnectionPool(host='www.guojiaxing.red', port=2375): Read timed out. (read timeout=60)
+[2019-10-14 19:37:43,631] INFO in app.py - framework_error [line:17]: 500 Internal Server Error: None
+[2019-10-14 19:41:24,199] INFO in app.py - framework_error [line:17]: 500 Server Error: Internal Server Error ("Get https://harbor.guojiaxing.red/v2/: dial tcp 47.111.114.175:443: connect: connection refused")
+[2019-10-14 19:52:57,547] INFO in app.py - framework_error [line:17]: 'dict' object has no attribute 'Name'
+[2019-10-14 21:38:53,933] INFO in app.py - framework_error [line:17]: __init__() missing 1 required positional argument: 'form_class'
+[2019-10-14 21:41:18,064] INFO in app.py - framework_error [line:17]: run() got an unexpected keyword argument 'link'
+[2019-10-14 21:43:16,385] INFO in app.py - framework_error [line:17]: __init__() missing 1 required positional argument: 'form_class'
+[2019-10-14 21:44:23,002] INFO in app.py - framework_error [line:17]: 'dict' object has no attribute 'validate'
+[2019-10-14 21:45:00,074] INFO in app.py - framework_error [line:17]: 'UnboundField' object has no attribute 'validate'
+[2019-10-14 21:45:15,521] INFO in app.py - framework_error [line:17]: 'UnboundField' object is not callable
+[2019-10-14 21:46:06,944] INFO in app.py - framework_error [line:17]: str() takes at most 3 arguments (4 given)
+[2019-10-14 21:49:28,268] INFO in app.py - framework_error [line:17]: the JSON object must be str, bytes or bytearray, not 'dict'
+[2019-10-14 21:50:44,110] INFO in app.py - framework_error [line:17]: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
+[2019-10-14 21:56:38,963] INFO in app.py - framework_error [line:17]: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
+[2019-10-14 22:01:04,638] INFO in app.py - framework_error [line:17]: __init__() got an unexpected keyword argument 'formdata'
+[2019-10-14 22:03:20,471] INFO in app.py - framework_error [line:17]: run() got an unexpected keyword argument 'link'
+[2019-10-14 22:05:26,694] INFO in app.py - framework_error [line:17]: name 'link' is not defined
+[2019-10-15 09:32:56,477] INFO in app.py - framework_error [line:17]: local variable 'ports' referenced before assignment
+[2019-10-15 09:35:20,683] INFO in app.py - framework_error [line:17]: local variable 'ports' referenced before assignment
+[2019-10-15 09:35:47,423] INFO in app.py - framework_error [line:17]: local variable 'ports1' referenced before assignment
+[2019-10-15 09:54:44,042] INFO in app.py - framework_error [line:17]: 500 Server Error: Internal Server Error ("Cannot link to /mysql_master, as it does not belong to the default network")
+[2019-10-15 09:56:43,918] INFO in app.py - framework_error [line:17]: 409 Client Error: Conflict ("Conflict. The container name "/tal" is already in use by container "ed4276c81f16f15c94f905ca222e0b0d095c0b9d5496ae671beb09a5fa728ebd". You have to remove (or rename) that container to be able to reuse that name.")
+[2019-10-15 13:32:38,589] INFO in app.py - framework_error [line:17]: 'StringField' object has no attribute 'restart'
+[2019-10-15 13:33:06,964] INFO in app.py - framework_error [line:17]: 400 Client Error: Bad Request ("maximum retry count cannot be used with restart policy 'always'")
+[2019-10-15 14:40:15,804] INFO in app.py - framework_error [line:17]: 'str' object has no attribute 'items'
+[2019-10-15 17:29:29,697] INFO in app.py - framework_error [line:17]: 405 Method Not Allowed: The method is not allowed for the requested URL.
+[2019-10-15 21:19:38,513] INFO in app.py - framework_error [line:17]: HTTPConnectionPool(host='127.0.0.1', port=2375): Max retries exceeded with url: /v1.35/images/json?only_ids=0&all=0 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001EA61876128>: Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。',))
+[2019-10-15 21:19:40,798] INFO in app.py - framework_error [line:17]: HTTPConnectionPool(host='127.0.0.1', port=2375): Max retries exceeded with url: /v1.35/images/json?only_ids=0&all=0 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001EA62A7D860>: Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。',))
+[2019-10-15 21:19:49,104] INFO in app.py - framework_error [line:17]: HTTPConnectionPool(host='127.0.0.1', port=2375): Max retries exceeded with url: /v1.35/images/json?only_ids=0&all=0 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001EA63A1E780>: Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。',))
+[2019-10-18 19:26:09,237] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'host': ['不许为空']}
+[2019-10-18 19:28:02,790] INFO in app.py - framework_error [line:17]: 409 Client Error: Conflict ("Conflict. The container name "/test1" is already in use by container "ba32e2ed5cab2577def5cd4a516b202c403ae6ca14738dd0b4a8f5de247cc341". You have to remove (or rename) that container to be able to reuse that name.")
+[2019-10-18 19:40:18,750] INFO in app.py - framework_error [line:17]: 500 Server Error: Internal Server Error ("driver failed programming external connectivity on endpoint test2 (ebc9b73ed3d1cb96d8716764f9e140d3dc23e5311bddfdcde6a1b911d77a4993): Bind for 0.0.0.0:5555 failed: port is already allocated")
+[2019-10-19 17:11:54,898] INFO in app.py - framework_error [line:17]: 500 Server Error: Internal Server Error ("Get https://registry-1.docker.io/v2/library/hahahaah77/manifests/latest: Get https://auth.docker.io/token?scope=repository%3Alibrary%2Fhahahaah77%3Apull&service=registry.docker.io: net/http: TLS handshake timeout")
+[2019-10-19 18:00:49,860] INFO in app.py - framework_error [line:17]: 500 Internal Server Error: None
+[2019-10-19 18:01:40,856] INFO in app.py - framework_error [line:17]: 500 Internal Server Error: None
+[2019-10-19 18:04:54,953] INFO in app.py - framework_error [line:17]: 500 Internal Server Error: None
+[2019-10-19 18:07:35,906] INFO in app.py - framework_error [line:17]: 500 Internal Server Error: None
+[2019-10-19 19:20:03,885] INFO in app.py - framework_error [line:17]: 500 Internal Server Error: None
+[2019-10-19 19:35:59,894] INFO in app.py - framework_error [line:17]: 500 Internal Server Error: None
+[2019-10-19 19:40:43,134] INFO in app.py - framework_error [line:17]: 404 Client Error: Not Found ("manifest for hello-world:nginx not found")
+[2019-10-20 15:25:33,243] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'image': ['不许为空']}
+[2019-10-20 15:39:13,023] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'image': ['不许为空']}
+[2019-10-20 15:44:43,303] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'image': ['不许为空']}
+[2019-10-20 16:27:41,957] INFO in app.py - framework_error [line:17]: HTTPConnectionPool(host='www.guojiaxing.red', port=2375): Read timed out. (read timeout=60)
