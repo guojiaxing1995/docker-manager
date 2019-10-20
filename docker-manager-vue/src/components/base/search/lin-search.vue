@@ -20,6 +20,11 @@ export default {
       default: '',
     },
   },
+  watch: {
+    searchKeyWord() {
+      this.keyword = this.searchKeyWord
+    },
+  },
   data() {
     return {
       keyword: this.searchKeyWord,
