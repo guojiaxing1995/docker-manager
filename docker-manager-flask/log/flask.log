@@ -141,3 +141,4 @@
 [2019-10-20 15:25:33,243] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'image': ['不许为空']}
 [2019-10-20 15:39:13,023] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'image': ['不许为空']}
 [2019-10-20 15:44:43,303] INFO in app.py - framework_error [line:17]: 400 Bad Request: {'image': ['不许为空']}
+[2019-10-20 16:27:41,957] INFO in app.py - framework_error [line:17]: HTTPConnectionPool(host='www.guojiaxing.red', port=2375): Read timed out. (read timeout=60)
