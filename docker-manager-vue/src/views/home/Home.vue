@@ -4,7 +4,7 @@
       <el-aside :width="sideBarWidth" class="aside">
         <side-bar :isCollapse="isCollapse"></side-bar>
       </el-aside>
-      <el-container>
+      <el-container class="container">
         <el-header class="header">
           <div class="left">
             <div class="operate" ref="operate">
@@ -22,7 +22,9 @@
         </el-header>
         <el-main ref="main">
           <menu-tab></menu-tab>
-          <app-main ref="appMain"></app-main>
+          <el-scrollbar style="height:100%">
+            <app-main ref="appMain"></app-main>
+          </el-scrollbar>
         </el-main>
         <back-top :right="50" :bottom="50" :fontSize="34"></back-top>
       </el-container>
@@ -120,6 +122,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.container /deep/ .el-scrollbar__wrap {
+  overflow-x: hidden;
+}
 .aside {
   background: rgb(25, 42, 94);
   overflow-x: hidden;
