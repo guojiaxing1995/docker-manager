@@ -77,3 +77,18 @@ class PullFail(APIException):
     code = 500
     msg = '拉取镜像失败，请检查tag后重试'
     error_code = 1021
+
+class StopFail(APIException):
+    code = 500
+    msg = '容器停止失败，请刷新后重试'
+    error_code = 1022
+
+class StartFail(APIException):
+    code = 500
+    msg = '容器启动失败，请刷新后重试'
+    error_code = 1023
+
+class RemoveFail(APIException):
+    code = 500
+    msg = '容器删除失败，请刷新后重试'
+    error_code = 1024

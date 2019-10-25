@@ -300,6 +300,7 @@ export default {
       margin-left: 20px;
       .el-icon-refresh {
         font-size: 20px;
+        cursor: pointer;
       }
     }
   }

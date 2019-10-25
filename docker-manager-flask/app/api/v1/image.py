@@ -37,6 +37,7 @@ def list():
                 image_item['size'] = str(round(i.attrs['Size'] / 1000)) + 'KB'
             image_item['DockerVersion'] = i.attrs['DockerVersion']
             image_list.append(image_item)
+    #查询
     if search:
         image_list_new = []
         for i in image_list:

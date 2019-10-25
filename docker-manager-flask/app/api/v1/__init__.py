@@ -5,7 +5,7 @@
 @File    : __init__.py.py
 @Desc    :
 """
-from app.api.v1 import client,image
+from app.api.v1 import client, image, container
 from flask import Blueprint
 
 
@@ -14,4 +14,5 @@ def create_blueprint_v1():
 
     client.api.register(bp_v1)
     image.api.register(bp_v1)
+    container.api.register(bp_v1)
     return bp_v1
