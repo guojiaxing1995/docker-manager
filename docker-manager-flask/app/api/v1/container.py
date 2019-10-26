@@ -29,7 +29,10 @@ def list():
         container['restartCount'] = c.attrs['RestartCount']
         container['cmd'] = str(c.attrs['Config']['Cmd'])
         container['image'] = c.attrs['Config']['Image']
-        container['volumes'] = str(c.attrs['HostConfig']['Binds']).replace(':rw', '')
+        if c.attrs['HostConfig']['Binds']:
+            container['volumes'] = str(c.attrs['HostConfig']['Binds']).replace(':rw', '')
+        else:
+            container['volumes'] = ''
         container['network'] = c.attrs['HostConfig']['NetworkMode']
         #container['portsSet'] = str(c.attrs['HostConfig']['PortBindings']).replace('{', '').replace('}', '').replace("'HostIp': '', 'HostPort': ", '')
         containers.append(container)

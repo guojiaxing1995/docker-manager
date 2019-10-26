@@ -372,6 +372,7 @@ export default {
             type: 'success',
             message: '运行成功',
           })
+          this.$router.push({ path: '/container', query: { id: res.data.id } })
         })
         .catch((error) => {
           this.$message.error(error.response.data.msg)

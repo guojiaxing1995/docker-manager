@@ -1,5 +1,19 @@
 <template>
   <div class="container">
+    <el-dialog
+      title="提示"
+      :visible.sync="removeDialogVisible"
+      width="25%"
+      :show-close="false"
+      class="remove-dialog"
+      @close="closeRemoveForm">
+      <div style="display:flex;align-items:center;"><l-icon name="info-circle" width="1.4rem" height="1.4rem" color="#FFBE4D"></l-icon>&nbsp;此操作将永久删除该容器，是否继续？</div>
+      <div style="margin-top:15px;">同时删除挂载卷&nbsp;&nbsp;<el-switch v-model="removeForm.volume"></el-switch></div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="removeDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="removeContainer">确 定</el-button>
+      </span>
+    </el-dialog>
     <div class="select">
       <div class="select-left">
         <label class="select-label">服务器</label>
@@ -21,10 +35,31 @@
     </div>
     <div class="table">
       <el-table
-        :data="imageList"
+        :data="containerList"
         stripe
         v-loading="loading"
         style="width: 100%">
+        <el-table-column type="expand" fixed>
+          <template slot-scope="props">
+            <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item label="启动命令">
+                <span>{{ props.row.cmd }}</span>
+              </el-form-item>
+              <el-form-item label="网络">
+                <span>{{ props.row.network }}</span>
+              </el-form-item>
+              <el-form-item label="重启次数">
+                <span>{{ props.row.restartCount }}</span>
+              </el-form-item>
+              <el-form-item label="端口映射">
+                <span>{{ props.row.ports }}</span>
+              </el-form-item>
+              <el-form-item label="数据挂载">
+                <span>{{ props.row.volumes }}</span>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
         <el-table-column
           fixed
           prop="name"
@@ -37,20 +72,21 @@
           :show-overflow-tooltip="true"
           width="200">
         <template slot-scope="scope">
-            <el-tag type="info">{{scope.row.tag}}
-            </el-tag>
+            <el-tag v-if="scope.row.status === 'running'" type="success">{{scope.row.status}}</el-tag>
+            <el-tag v-else-if="scope.row.status === 'exited'" type="danger">{{scope.row.status}}</el-tag>
+            <el-tag v-else type="warning">{{scope.row.status}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column
           prop="id"
           label="容器ID"
-          width="240">
+          width="200">
         </el-table-column>
         <el-table-column
-          prop="size"
+          prop="image"
           label="镜像"
           :show-overflow-tooltip="true"
-          width="350">
+          width="300">
         </el-table-column>
         <el-table-column
           label="创建时间"
@@ -63,26 +99,55 @@
           </template>
         </el-table-column>
         <el-table-column
-          width="400"
+          width="380"
           align="center"
           fixed="right"
           label="操作">
           <template slot-scope="scope">
             <el-tooltip effect="dark" placement="top-start">
-              <div slot="content">docker run</div>
+              <div slot="content">docker start</div>
                 <el-button
+                  :disabled="scope.row.status !== 'exited'"
                   size="mini"
-                  type="primary"
+                  type="success"
                   style="margin:auto"
-                  @click="handleRun(scope.$index, scope.row)">运行</el-button>
+                  @click="handleStart(scope.$index, scope.row)">启动</el-button>
             </el-tooltip>
             <el-tooltip effect="dark" placement="top-start">
-              <div slot="content">docker rmi</div>
+              <div slot="content">docker stop</div>
                 <el-button
+                  :disabled="scope.row.status !== 'running'"
+                  size="mini"
+                  type="warning"
+                  style="margin:auto"
+                  @click="handleStop(scope.$index, scope.row)">停止</el-button>
+            </el-tooltip>
+            <el-tooltip effect="dark" placement="top-start">
+              <div slot="content">docker rm</div>
+                <el-button
+                  :disabled="scope.row.status === 'running'"
                   size="mini"
                   type="danger"
                   style="margin:auto"
                   @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            </el-tooltip>
+            <el-tooltip effect="dark" placement="top-start">
+              <div slot="content">docker logs</div>
+                <el-button
+                  :disabled="scope.row.status !== 'running'"
+                  size="mini"
+                  type="primary"
+                  style="margin:auto"
+                  @click="handleRun(scope.$index, scope.row)">日志</el-button>
+            </el-tooltip>
+            <el-tooltip effect="dark" placement="top-start">
+              <div slot="content">docker attach</div>
+                <el-button
+                  :disabled="scope.row.status !== 'running'"
+                  size="mini"
+                  type="info"
+                  style="margin:auto"
+                  @click="handleDelete(scope.$index, scope.row)">shell</el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -107,6 +172,7 @@ import axios from 'axios'
 import LinSearch from '@/components/base/search/lin-search'
 
 export default {
+  name: 'container',
   components: {
     LinSearch,
   },
@@ -115,12 +181,23 @@ export default {
       loading: false,
       hostList: [],
       host: '',
-      imageList: [],
+      containerList: [],
       page: 1,
       pages: 1,
       total: 0,
       searchWord: '',
       searchResultData: [],
+      removeForm: {
+        container: '',
+        volume: false,
+      },
+      removeDialogVisible: false,
+    }
+  },
+  activated() {
+    console.log(this.$route.query.id)
+    if (this.$route.query.id) {
+      this.searchWord = this.$route.query.id
     }
   },
   mounted() {
@@ -135,7 +212,7 @@ export default {
       this.total = 0
       this.pages = 1
       this.searchWord = ''
-      this.getImageList()
+      this.getContainerList()
     },
   },
   methods: {
@@ -143,14 +220,14 @@ export default {
       this.page = 1
       this.total = 0
       this.pages = 1
-      this.getImageList()
+      this.getContainerList()
     },
     onQueryChange(query) {
       this.searchWord = query.trim()
       this.page = 1
       this.pages = 1
       this.total = 0
-      this.getImageList()
+      this.getContainerList()
     },
     // 获取host列表
     getHostList() {
@@ -165,21 +242,21 @@ export default {
     getHostListFail(error) {
       this.$message.error(error.response.data.msg)
     },
-    // 获取镜像列表
-    getImageList() {
+    // 获取r容器列表
+    getContainerList() {
       this.loading = true
-      axios.get('/v1/image/list', {
+      axios.get('/v1/container/list', {
         params: {
           host: this.host,
           page: this.page,
           search: this.searchWord,
         },
       })
-        .then(this.getImageListSucc)
+        .then(this.getContainerListSucc)
         .catch(this.getHostListFail)
     },
-    getImageListSucc(res) {
-      this.imageList = res.data.data
+    getContainerListSucc(res) {
+      this.containerList = res.data.data
       this.page = res.data.page
       this.pages = res.data.pages
       this.total = res.data.total
@@ -187,19 +264,99 @@ export default {
     },
     handleCurrentChange(val) {
       this.page = val
-      this.getImageList()
+      this.getContainerList()
+    },
+    // 启动容器
+    handleStart(index, val) {
+      this.loading = true
+      axios.get('/v1/container/start', {
+        params: {
+          host: this.host,
+          nameOrId: val.id,
+        },
+      })
+        .then((res) => {
+          if (res.data.error_code === 0) {
+            this.$message({
+              type: 'success',
+              message: res.data.msg,
+            })
+            this.page = 1
+            this.pages = 1
+            this.total = 0
+            this.getContainerList()
+          }
+        })
+        .catch((error) => {
+          this.loading = false
+          if (error.response.data.error_code === 1023) {
+            this.$message.error(error.response.data.msg)
+          }
+        })
+    },
+    handleStop(index, val) {
+      this.loading = true
+      axios.get('/v1/container/stop', {
+        params: {
+          host: this.host,
+          nameOrId: val.id,
+        },
+      })
+        .then((res) => {
+          if (res.data.error_code === 0) {
+            this.$message({
+              type: 'success',
+              message: res.data.msg,
+            })
+            this.page = 1
+            this.pages = 1
+            this.total = 0
+            this.getContainerList()
+          }
+        })
+        .catch((error) => {
+          this.loading = false
+          if (error.response.data.error_code === 1022) {
+            this.$message.error(error.response.data.msg)
+          }
+        })
     },
     // 点击删除按钮
     handleDelete(index, val) {
-      this
-        .$confirm('此操作将永久删除该镜像, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning',
+      this.removeDialogVisible = true
+      this.removeForm.container = val.id
+    },
+    closeRemoveForm() {
+      this.removeForm.container = ''
+      this.removeForm.volume = false
+    },
+    removeContainer() {
+      this.loading = true
+      this.removeDialogVisible = false
+      axios.get('/v1/container/remove', {
+        params: {
+          host: this.host,
+          nameOrId: this.removeForm.container,
+          volume: this.removeForm.volume,
+        },
+      })
+        .then((res) => {
+          if (res.data.error_code === 0) {
+            this.$message({
+              type: 'success',
+              message: res.data.msg,
+            })
+            this.page = 1
+            this.pages = 1
+            this.total = 0
+            this.getContainerList()
+          }
         })
-        .then(() => {
-          const image = val.name + ':' + val.tag
-          this.removeImage(image)
+        .catch((error) => {
+          this.loading = false
+          if (error.response.data.error_code === 1024) {
+            this.$message.error(error.response.data.msg)
+          }
         })
     },
   },
@@ -210,21 +367,9 @@ export default {
 .container {
   padding: 40px;
   height: 100%;
-  .el-dialog-div{
-    height: 50vh;
-    overflow: auto;
-    .run-item {
-      display: flex;
-      height: 20px;
-      .run-item-left {
-        background: red;
-        width: 38.2%;
-      }
-      .run-item-right {
-        background: green;
-        width: 61.8%;
-      }
-    }
+  .remove-dialog /deep/ .el-dialog__body {
+    padding: 20px 20px;
+    font-size: 16px;
   }
   .el-dialog-div /deep/ .el-table {
     border: 0px;
@@ -264,6 +409,21 @@ export default {
   }
   .table {
     margin-top: 40px;
+  }
+  .table /deep/ .demo-table-expand {
+    font-size: 0;
+  }
+   .table /deep/ .demo-table-expand label {
+    width: 80px;
+    color: #3963bc;
+  }
+   .table /deep/ .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 50%;
+  }
+  .table /deep/ .el-form-item__content {
+    margin-bottom: 0;
   }
   // 滚动条优化
   .table /deep/ .el-table__body-wrapper::-webkit-scrollbar {
