@@ -20,13 +20,19 @@ import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
 import '@/assets/styles/index.scss' // eslint-disable-line
 import '@/assets/styles/realize/element-variables.scss'
 import axios from 'axios'
+import VueSocketIO from 'vue-socket.io'
 
-axios.defaults.baseURL = '/api/'
+axios.defaults.baseURL = '/'
 
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
 
+Vue.use(new VueSocketIO({
+  debug: true,
+  // 服务器端地址
+  connection: 'http://127.0.0.1:5005/',
+}))
 Vue.component(CollapseTransition.name, CollapseTransition)
 
 // base 组件注册

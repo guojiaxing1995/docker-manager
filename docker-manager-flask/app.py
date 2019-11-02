@@ -5,12 +5,13 @@
 @File    : app.py
 @Desc    : 入口文件
 """
+from flask_socketio import emit
 from werkzeug.exceptions import HTTPException
-
 from app import create_app
 from app.libs.error import APIException
 
-app = create_app()
+socket_io,app = create_app()
+
 
 @app.errorhandler(Exception)
 def framework_error(e):
@@ -31,4 +32,4 @@ def framework_error(e):
 
 
 if __name__ == '__main__':
-    app.run(debug=app.config['DEBUG'],host=app.config['HOST'],port=app.config['PORT'],threaded=app.config['THREADED'])
+    socket_io.run(app,debug=app.config['DEBUG'],host=app.config['HOST'],port=app.config['PORT'])

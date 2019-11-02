@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  
+  flask:
+    image: docker-manager/flask:v1
+    restart: always
+    expose:
+      - 5005
+    networks:
+      - docker-manager
+           
+  nginx:
+    image: docker-manager/vue:v1
+    restart: always
+    ports:
+      - 8085:80
+    links:
+      - flask
+    networks:
+      - docker-manager
+  
+networks:
+  docker-manager:
+    driver: bridge

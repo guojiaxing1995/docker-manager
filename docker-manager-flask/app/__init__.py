@@ -16,6 +16,7 @@ from flask_cors import *
 
 from flask_mail import Mail
 
+from app.libs.socketio import socket_io
 from app.libs.util import get_date_str
 from .app import Flask
 
@@ -72,4 +73,7 @@ def create_app():
     mail.init_app(app)
 
 
-    return app
+    socket_io.init_app(app,cors_allowed_origins='*')
+
+
+    return socket_io,app

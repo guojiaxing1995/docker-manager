@@ -30,8 +30,8 @@
         <div class="server-box">
           <div class="about-influence">
             <div class="about-influence-item">
-              <div class="about-influence-num color1">{{Name}}</div>
-              <div class="about-influece-label">name</div>
+              <div class="about-influence-num color1">{{host}}</div>
+              <div class="about-influece-label">host</div>
             </div>
           </div>
           <div class="about-influence">

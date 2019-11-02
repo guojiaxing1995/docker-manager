@@ -1,8 +1,11 @@
 import math
+import time
 
 import docker
 from flask import jsonify, current_app
+from flask_socketio import emit
 
+from app import socket_io
 from app.libs.error_code import Success, StopFail, StartFail, RemoveFail
 from app.validators.client_forms import ListForm, ContainerForm
 from app.libs.redprint import Redprint
@@ -109,3 +112,28 @@ def remove():
 
     client.close()
     return Success(msg='容器删除成功')
+
+
+@socket_io.on('logs')
+def logs(data):
+    host = data.get('host')
+    name = data.get('name')
+    client = docker.DockerClient(base_url='tcp://' + host + ':2375')
+    c = client.containers.get(name)
+    for line in c.logs(stream=True, tail=20, follow=True):
+        print(line.decode('utf-8').strip())
+        emit(host + name, {'name': name, 'msg': line.decode('utf-8').strip()})
+
+
+@socket_io.on_error()        # Handles the default namespace
+def error_handler(e):
+    raise RuntimeError()
+
+@socket_io.on('connect')
+def test_connect():
+    emit('my response', {'data': 'Connected'})
+
+@socket_io.on('disconnect')
+def test_disconnect():
+    print('Client disconnected')
+

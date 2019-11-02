@@ -37,14 +37,19 @@ module.exports = {
   },
   devServer: {
     proxy: {
-      '/api': {
-        target: 'http://127.0.0.1:5005/', //对应自己的接口
+      '/v1': {
+        target: 'http://127.0.0.1:5005/',
+        // target: '/',
         changeOrigin: true,
         ws: true,
         pathRewrite: {
-          '^/api': ''
         }
-      }
+      },
+      // '/socket.io': {
+      //   target: 'http://127.0.0.1:5005/', // target host
+      //   changeOrigin: true, // needed for virtual hosted sites
+      //   logLevel: 'debug'
+      // }
     }
   },
   // node_modules依赖项es6语法未转换问题

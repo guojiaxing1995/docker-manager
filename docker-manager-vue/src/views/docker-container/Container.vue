@@ -1,6 +1,33 @@
 <template>
   <div class="container">
     <el-dialog
+      class="log"
+      title="docker logs"
+      :visible.sync="logDialogVisible"
+      width="70%"
+      :close-on-click-modal="false"
+      :show-close="false"
+      @close="closeLogDialog">
+      <span slot="title">
+        <div class="log-header">
+          <div class="log-header-left">
+            {{logContainer}}
+          </div>
+          <div class="log-header-right">
+            <i v-if="logPrint" class="el-icon-video-pause" @click="pauseLogs"></i>
+            <i v-else class="el-icon-video-play" @click="startLogs"></i>
+            <i class="el-icon-brush" @click="closeLogDialog"></i>
+            <i class="el-icon-circle-close" @click="logDialogVisible = false"></i>
+          </div>
+        </div>
+      </span>
+      <div class="el-dialog-div">
+        <el-scrollbar style="height:100%" ref="elscrollbar">
+          <div v-html="logs">{{logs}}</div>
+        </el-scrollbar>
+      </div>
+    </el-dialog>
+    <el-dialog
       title="提示"
       :visible.sync="removeDialogVisible"
       width="25%"
@@ -138,7 +165,7 @@
                   size="mini"
                   type="primary"
                   style="margin:auto"
-                  @click="handleRun(scope.$index, scope.row)">日志</el-button>
+                  @click="handleLogs(scope.$index, scope.row)">日志</el-button>
             </el-tooltip>
             <el-tooltip effect="dark" placement="top-start">
               <div slot="content">docker attach</div>
@@ -147,7 +174,7 @@
                   size="mini"
                   type="info"
                   style="margin:auto"
-                  @click="handleDelete(scope.$index, scope.row)">shell</el-button>
+                  @click="handleShell(scope.$index, scope.row)">shell</el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -187,24 +214,33 @@ export default {
       total: 0,
       searchWord: '',
       searchResultData: [],
+      hasLogs: [],
       removeForm: {
         container: '',
         volume: false,
       },
       removeDialogVisible: false,
+      logDialogVisible: false,
+      logPrint: true,
+      logs: '',
+      logContainer: '',
     }
   },
   activated() {
-    console.log(this.$route.query.id)
     if (this.$route.query.id) {
       this.searchWord = this.$route.query.id
     }
   },
   mounted() {
+    // 没用。。。
+    // this.$socket.emit('disconnect')
     if (document.body.clientWidth > 1200 && document.body.clientWidth < 1330) {
       this.showTeam = true
     }
     this.getHostList()
+    if (this.$route.query.id) {
+      this.searchWord = this.$route.query.id
+    }
   },
   watch: {
     host() {
@@ -359,7 +395,76 @@ export default {
           }
         })
     },
+    closeLogDialog() {
+      this.logs = ''
+      this.pauseLogs()
+    },
+    handleLogs(index, val) {
+      this.logDialogVisible = true
+      this.logPrint = true
+      this.logContainer = val.name
+      // 如果之前发送过消息则直接订阅
+      this.startLogs()
+    },
+    startLogs() {
+      this.logPrint = true
+      if (!(this.hasLogs.indexOf(this.host + this.logContainer) > -1)) {
+        console.log('请求')
+        this.hasLogs.push(this.host + this.logContainer)
+        this.$socket.emit('logs', {
+          host: this.host,
+          name: this.logContainer,
+        })
+      }
+      this.sockets.subscribe(this.host + this.logContainer, (data) => {
+        console.log(data.name)
+        if (data.name === this.logContainer) {
+          this.logs = this.logs + data.msg + '<br>'
+          const div = this.$refs.elscrollbar.$refs.wrap
+          this.$nextTick(() => {
+            div.scrollTop = div.scrollHeight
+          })
+        }
+      })
+      // if (this.hasLogs.indexOf(this.host + this.logContainer) > -1) {
+      //   this.sockets.subscribe(this.host + this.logContainer, (data) => {
+      //     if (data.name === this.logContainer) {
+      //       console.log(5)
+      //       this.logs = this.logs + data.msg + '<br>'
+      //       const div = this.$refs.elscrollbar.$refs.wrap
+      //       this.$nextTick(() => {
+      //         div.scrollTop = div.scrollHeight
+      //       })
+      //     }
+      //   })
+      // } else {
+      //   this.hasLogs.push(this.host + this.logContainer)
+      //   this.$socket.emit('logs', {
+      //     host: this.host,
+      //     name: this.logContainer,
+      //   })
+      //   this.sockets.subscribe(this.host + this.logContainer, (data) => {
+      //     if (data.name === this.logContainer) {
+      //       console.log(6)
+      //       this.logs = this.logs + data.msg + '<br>'
+      //       const div = this.$refs.elscrollbar.$refs.wrap
+      //       this.$nextTick(() => {
+      //         div.scrollTop = div.scrollHeight
+      //       })
+      //     }
+      //   })
+      // }
+    },
+    pauseLogs() {
+      this.logPrint = false
+      this.sockets.unsubscribe(this.host + this.logContainer)
+    },
   },
+  // sockets: {
+  //   logResponse: (data) => {
+  //     console.log(data.msg)
+  //   },
+  // },
 }
 </script>
 
@@ -367,6 +472,35 @@ export default {
 .container {
   padding: 40px;
   height: 100%;
+  .log {
+    .log-header {
+      display: flex;
+      align-items: center;
+      .log-header-left {
+        color: #ddd;
+        width: 50%;
+      }
+      .log-header-right {
+        display: flex;
+        justify-content: flex-end;
+        width: 50%;
+        i {
+          color: #ddd;
+          font-size: 1.6rem;
+          margin-left: 15px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  .log /deep/ .el-dialog__header {
+    padding: 10px 15px;
+    background: #3963bc;
+  }
+  .el-dialog-div{
+    height: 60vh;
+    overflow: auto;
+  }
   .remove-dialog /deep/ .el-dialog__body {
     padding: 20px 20px;
     font-size: 16px;
