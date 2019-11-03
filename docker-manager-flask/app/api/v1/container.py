@@ -6,6 +6,7 @@ from flask import jsonify, current_app
 from flask_socketio import emit
 
 from app import socket_io
+from app.libs.certification import get_certification, cert_file_path
 from app.libs.error_code import Success, StopFail, StartFail, RemoveFail
 from app.validators.client_forms import ListForm, ContainerForm
 from app.libs.redprint import Redprint
@@ -18,7 +19,14 @@ def list():
     host = form.host.data
     page = int(form.page.data)
     search = form.search.data
-    client = docker.DockerClient(base_url='tcp://' + host + ':2375')
+    certification = get_certification(host)
+    # 判断是否鉴权
+    if certification:
+        cert,key = cert_file_path(host)
+        tls_config = docker.tls.TLSConfig(client_cert=(cert, key),verify=False)
+        client = docker.DockerClient(base_url='tcp://' + host + ':2376', tls=tls_config)
+    else:
+        client = docker.DockerClient(base_url='tcp://' + host + ':2375')
     container_list = client.containers.list(all=True)
 
     containers= []
@@ -69,7 +77,14 @@ def stop():
     form = ContainerForm().validate_for_api()
     host = form.host.data
     name_or_Id = form.nameOrId.data
-    client = docker.DockerClient(base_url='tcp://' + host + ':2375')
+    certification = get_certification(host)
+    # 判断是否鉴权
+    if certification:
+        cert,key = cert_file_path(host)
+        tls_config = docker.tls.TLSConfig(client_cert=(cert, key),verify=False)
+        client = docker.DockerClient(base_url='tcp://' + host + ':2376', tls=tls_config)
+    else:
+        client = docker.DockerClient(base_url='tcp://' + host + ':2375')
     try:
         c = client.containers.get(name_or_Id)
         c.stop()
@@ -85,7 +100,14 @@ def start():
     form = ContainerForm().validate_for_api()
     host = form.host.data
     name_or_Id = form.nameOrId.data
-    client = docker.DockerClient(base_url='tcp://' + host + ':2375')
+    certification = get_certification(host)
+    # 判断是否鉴权
+    if certification:
+        cert,key = cert_file_path(host)
+        tls_config = docker.tls.TLSConfig(client_cert=(cert, key),verify=False)
+        client = docker.DockerClient(base_url='tcp://' + host + ':2376', tls=tls_config)
+    else:
+        client = docker.DockerClient(base_url='tcp://' + host + ':2375')
     try:
         c = client.containers.get(name_or_Id)
         c.start()
@@ -102,7 +124,14 @@ def remove():
     host = form.host.data
     name_or_Id = form.nameOrId.data
     volume = form.volume.data
-    client = docker.DockerClient(base_url='tcp://' + host + ':2375')
+    certification = get_certification(host)
+    # 判断是否鉴权
+    if certification:
+        cert,key = cert_file_path(host)
+        tls_config = docker.tls.TLSConfig(client_cert=(cert, key),verify=False)
+        client = docker.DockerClient(base_url='tcp://' + host + ':2376', tls=tls_config)
+    else:
+        client = docker.DockerClient(base_url='tcp://' + host + ':2375')
     try:
         c = client.containers.get(name_or_Id)
         c.remove(v=volume)
@@ -118,11 +147,38 @@ def remove():
 def logs(data):
     host = data.get('host')
     name = data.get('name')
-    client = docker.DockerClient(base_url='tcp://' + host + ':2375')
+    certification = get_certification(host)
+    # 判断是否鉴权
+    if certification:
+        cert,key = cert_file_path(host)
+        tls_config = docker.tls.TLSConfig(client_cert=(cert, key),verify=False)
+        client = docker.DockerClient(base_url='tcp://' + host + ':2376', tls=tls_config)
+    else:
+        client = docker.DockerClient(base_url='tcp://' + host + ':2375')
     c = client.containers.get(name)
     for line in c.logs(stream=True, tail=20, follow=True):
         print(line.decode('utf-8').strip())
         emit(host + name, {'name': name, 'msg': line.decode('utf-8').strip()})
+
+
+@api.route('/shell')
+def shell():
+    form = ContainerForm().validate_for_api()
+    host = 'www.guojiaxing.red'
+    name_or_Id = 'f5ca53929c1d'
+    certification = get_certification(host)
+    # 判断是否鉴权
+    if certification:
+        cert,key = cert_file_path(host)
+        tls_config = docker.tls.TLSConfig(client_cert=(cert, key),verify=False)
+        client = docker.DockerClient(base_url='tcp://' + host + ':2376', tls=tls_config)
+    else:
+        client = docker.DockerClient(base_url='tcp://' + host + ':2375')
+    c = client.containers.get(name_or_Id)
+    client.close()
+    # a = c.exec_run(['touch', 'a'],stream=True,stdin=True,tty=True)
+    for line in c.exec_run(['/bin/sh','touch', 'bbb'],stream=True,stdin=True,tty=True).output:
+        return line
 
 
 @socket_io.on_error()        # Handles the default namespace

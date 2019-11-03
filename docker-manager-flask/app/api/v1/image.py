@@ -4,6 +4,7 @@ import math
 from docker.errors import APIError, ImageNotFound
 from flask import jsonify, current_app
 
+from app.libs.certification import get_certification, cert_file_path
 from app.libs.error_code import Success, ImageUsed, DeleteSuccess, DockerRunFail, PullFail
 from app.libs.error_code import ImageNotFound as NotFound
 from app.libs.redprint import Redprint
@@ -19,7 +20,14 @@ def list():
     host = form.host.data
     page = int(form.page.data)
     search = form.search.data
-    client = docker.DockerClient(base_url='tcp://' + host + ':2375')
+    certification = get_certification(host)
+    # 判断是否鉴权
+    if certification:
+        cert,key = cert_file_path(host)
+        tls_config = docker.tls.TLSConfig(client_cert=(cert, key),verify=False)
+        client = docker.DockerClient(base_url='tcp://' + host + ':2376', tls=tls_config)
+    else:
+        client = docker.DockerClient(base_url='tcp://' + host + ':2375')
     images = client.images.list()
     image_list = []
     for i in images:
@@ -62,7 +70,14 @@ def delete():
     form = ImageForm().validate_for_api()
     host = form.host.data
     image = form.image.data
-    client = docker.DockerClient(base_url='tcp://' + host + ':2375')
+    certification = get_certification(host)
+    # 判断是否鉴权
+    if certification:
+        cert,key = cert_file_path(host)
+        tls_config = docker.tls.TLSConfig(client_cert=(cert, key),verify=False)
+        client = docker.DockerClient(base_url='tcp://' + host + ':2376', tls=tls_config)
+    else:
+        client = docker.DockerClient(base_url='tcp://' + host + ':2375')
     try:
         client.images.remove(image)
     except ImageNotFound:
@@ -116,7 +131,14 @@ def run():
     else:
         restart_policy = None
 
-    client = docker.DockerClient(base_url='tcp://' + host + ':2375')
+    certification = get_certification(host)
+    # 判断是否鉴权
+    if certification:
+        cert,key = cert_file_path(host)
+        tls_config = docker.tls.TLSConfig(client_cert=(cert, key),verify=False)
+        client = docker.DockerClient(base_url='tcp://' + host + ':2376', tls=tls_config)
+    else:
+        client = docker.DockerClient(base_url='tcp://' + host + ':2375')
     try:
         container = client.containers.run(image, command, detach=True, name=name, links=links, ports=ports,
                                           restart_policy=restart_policy, volumes=volumes)
@@ -137,7 +159,14 @@ def search():
     form = ImageForm().validate_for_api()
     host = form.host.data
     image = form.image.data
-    client = docker.DockerClient(base_url='tcp://' + host + ':2375')
+    certification = get_certification(host)
+    # 判断是否鉴权
+    if certification:
+        cert,key = cert_file_path(host)
+        tls_config = docker.tls.TLSConfig(client_cert=(cert, key),verify=False)
+        client = docker.DockerClient(base_url='tcp://' + host + ':2376', tls=tls_config)
+    else:
+        client = docker.DockerClient(base_url='tcp://' + host + ':2375')
     images = client.images.search(image)
     for i in images:
         i['tag'] = ''
@@ -150,7 +179,14 @@ def pull():
     host = form.host.data
     image = form.image.data
     tag = form.tag.data
-    client = docker.DockerClient(base_url='tcp://' + host + ':2375')
+    certification = get_certification(host)
+    # 判断是否鉴权
+    if certification:
+        cert,key = cert_file_path(host)
+        tls_config = docker.tls.TLSConfig(client_cert=(cert, key),verify=False)
+        client = docker.DockerClient(base_url='tcp://' + host + ':2376', tls=tls_config)
+    else:
+        client = docker.DockerClient(base_url='tcp://' + host + ':2375')
     if not tag:
         tag = None
     try:
