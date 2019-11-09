@@ -34,4 +34,9 @@ class PullForm(BaseForm):
     image = StringField(validators=[DataRequired(message='不许为空')])
     tag = StringField()
 
+class ContainerForm(BaseForm):
+    host = StringField(validators=[DataRequired(message='不许为空'),length(min=5,max=32)])
+    nameOrId = StringField()
+    volume = BooleanField(default=False)
+
 

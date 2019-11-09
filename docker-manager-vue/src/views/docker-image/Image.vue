@@ -372,6 +372,7 @@ export default {
             type: 'success',
             message: '运行成功',
           })
+          this.$router.push({ path: '/container', query: { id: res.data.id } })
         })
         .catch((error) => {
           this.$message.error(error.response.data.msg)
@@ -567,6 +568,7 @@ export default {
     }
     .el-icon-circle-plus-outline{
       font-size: 20px;
+      cursor: pointer;
     }
     .input-row{
       display: flex;
@@ -582,10 +584,12 @@ export default {
           margin-left: 10px;
           font-size: 20px;
           color: #c6848e;
+          cursor: pointer;
         }
         .el-icon-circle-plus-outline{
           margin-left: 10px;
           font-size: 20px;
+          cursor: pointer;
         }
       }
     }
@@ -622,6 +626,7 @@ export default {
       .el-icon-refresh{
         font-size: 20px;
         margin-left: 20px;
+        cursor: pointer;
       }
       .docker-hub-btn{
         margin-left: 60px;

@@ -30,8 +30,8 @@
         <div class="server-box">
           <div class="about-influence">
             <div class="about-influence-item">
-              <div class="about-influence-num color1">{{Name}}</div>
-              <div class="about-influece-label">name</div>
+              <div class="about-influence-num color1">{{host}}</div>
+              <div class="about-influece-label">host</div>
             </div>
           </div>
           <div class="about-influence">
@@ -135,7 +135,7 @@
         </div>
         <div class="about-influence">
           <div class="about-influence-item">
-            <div class="about-influence-num color3">{{Images}}</div>
+            <div class="about-influence-num color3">{{imageList.length}}</div>
             <div class="about-influece-label">总数</div>
           </div>
         </div>
@@ -300,6 +300,7 @@ export default {
       margin-left: 20px;
       .el-icon-refresh {
         font-size: 20px;
+        cursor: pointer;
       }
     }
   }

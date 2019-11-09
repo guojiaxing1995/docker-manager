@@ -1,0 +1,18 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+docker = "==4.1.0"
+flask = "==1.0.2"
+flask-cors = "==3.0.6"
+flask-httpauth = "==3.2.4"
+flask-wtf = "==0.14.2"
+pyyaml = "==5.1.2"
+requests = "==2.19.1"
+
+[requires]
+python_version = "3.6"

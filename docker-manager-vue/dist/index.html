@@ -1,0 +1,81 @@
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=icon href=/favicon.ico><link rel=stylesheet type=text/css href=./iconfont.css><script src=//at.alicdn.com/t/font_1104271_so151lbumpq.js></script><title>docker-manager</title><style>#loader {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        background:#fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: display 1s ease .5s;
+      }
+      .loader-logo {
+        width: 60px;
+        height: 98px;
+        position: fixed;
+        left: 20%;
+        top: 43%;
+      }
+      .spinner {
+        position: relative;
+        line-height: 0;
+        box-sizing: border-box;
+        width: 40px;
+        height: 40px;
+        color: #3963bc;
+      }
+
+      .spinner:before {
+        content: '';
+        width: 100%;
+        height: 20%;
+        min-width: 5px;
+        background: #000;
+        opacity: 0.1;
+        position: absolute;
+        bottom: 0%;
+        left: 0;
+        border-radius: 50%;
+        animation: rotate-square-2-shadow .5s linear infinite;
+      }
+      .spinner:after {
+        content: '';
+        width: 100%;
+        height: 100%;
+        background: #3963bc;
+        animation: rotate-square-2-animate .5s linear infinite;
+        position: absolute;
+        bottom:40%;
+        left: 0;
+        border-radius: 3px;
+      }
+    
+
+    @keyframes rotate-square-2-animate {
+      17% {
+        border-bottom-right-radius: 3px;
+      }
+      25% {
+        transform: translateY(20%) rotate(22.5deg);
+      }
+      50% {
+        transform: translateY(40%) scale(1, .9) rotate(45deg);
+        border-bottom-right-radius: 50%;
+      }
+      75% {
+        transform: translateY(20%) rotate(67.5deg);
+      }
+      100% {
+        transform: translateY(0) rotate(90deg);
+      }
+    }
+
+    @keyframes rotate-square-2-shadow {
+      0%, 100% {
+        transform: scale(1, 1);
+      }
+      50% {
+        transform: scale(1.2, 1);
+      }
+    }</style><link href=/css/chunk-0d99f2b2.c51a7001.css rel=prefetch><link href=/css/chunk-0f67cf38.08a49d76.css rel=prefetch><link href=/css/chunk-525ceeb4.ba4b58ff.css rel=prefetch><link href=/css/chunk-556a3c26.ab129247.css rel=prefetch><link href=/css/chunk-5a36db52.7c22e75e.css rel=prefetch><link href=/css/chunk-748c6bd6.7cc20474.css rel=prefetch><link href=/css/chunk-74a19a89.09cc957e.css rel=prefetch><link href=/css/chunk-74bc5b1d.f1743d57.css rel=prefetch><link href=/css/chunk-76f0d0a6.249a6657.css rel=prefetch><link href=/css/chunk-76f252f0.77ea84f2.css rel=prefetch><link href=/css/chunk-770ab343.22f3a106.css rel=prefetch><link href=/css/chunk-773732cb.7cc20474.css rel=prefetch><link href=/css/chunk-af342e50.fbee61a5.css rel=prefetch><link href=/css/chunk-d8bac8ae.88fcf2dc.css rel=prefetch><link href=/css/chunk-e318d9e0.1f5a64e6.css rel=prefetch><link href=/css/chunk-e75cbb52.193a4b6a.css rel=prefetch><link href=/css/chunk-efd73ecc.6167d808.css rel=prefetch><link href=/js/chunk-0d99f2b2.6ec72114.js rel=prefetch><link href=/js/chunk-0f67cf38.84c44cdf.js rel=prefetch><link href=/js/chunk-2d0a3b0a.03445f88.js rel=prefetch><link href=/js/chunk-2d0a3ef6.b63e3b30.js rel=prefetch><link href=/js/chunk-2d0af2ca.9e80c2d8.js rel=prefetch><link href=/js/chunk-2d0b345e.fcbaaace.js rel=prefetch><link href=/js/chunk-2d0b3649.b29c6f22.js rel=prefetch><link href=/js/chunk-2d0b5de7.f118f011.js rel=prefetch><link href=/js/chunk-2d0bd266.a8dc13ca.js rel=prefetch><link href=/js/chunk-2d0c0ad1.015690a0.js rel=prefetch><link href=/js/chunk-2d0c1169.ee5bc45b.js rel=prefetch><link href=/js/chunk-2d0c18fa.9c8f126e.js rel=prefetch><link href=/js/chunk-2d0c20af.2e02b654.js rel=prefetch><link href=/js/chunk-2d0c2687.8ea60b5c.js rel=prefetch><link href=/js/chunk-2d0c49a8.907a0360.js rel=prefetch><link href=/js/chunk-2d0c51d4.b83d16b1.js rel=prefetch><link href=/js/chunk-2d0c9abb.3bbb02ff.js rel=prefetch><link href=/js/chunk-2d0cc615.eb09ff97.js rel=prefetch><link href=/js/chunk-2d0d076a.8e9461b7.js rel=prefetch><link href=/js/chunk-2d0d3e08.324c5bbf.js rel=prefetch><link href=/js/chunk-2d0d5c52.d0ae35f7.js rel=prefetch><link href=/js/chunk-2d0d6b73.db0bb8e8.js rel=prefetch><link href=/js/chunk-2d0da2e5.3407b836.js rel=prefetch><link href=/js/chunk-2d0e17ef.8cceec94.js rel=prefetch><link href=/js/chunk-2d0e4844.9c062ffa.js rel=prefetch><link href=/js/chunk-2d0e4c81.e636a598.js rel=prefetch><link href=/js/chunk-2d0e88fe.4d2522f9.js rel=prefetch><link href=/js/chunk-2d0e9af9.b0e2e03d.js rel=prefetch><link href=/js/chunk-2d213c87.fd7246ce.js rel=prefetch><link href=/js/chunk-2d216067.302bc293.js rel=prefetch><link href=/js/chunk-2d2183cf.6acc9ebf.js rel=prefetch><link href=/js/chunk-2d21a983.ba39541f.js rel=prefetch><link href=/js/chunk-2d21e007.1f8911e8.js rel=prefetch><link href=/js/chunk-2d21ee6c.84abd6e6.js rel=prefetch><link href=/js/chunk-2d229c25.55bcf809.js rel=prefetch><link href=/js/chunk-2d22d416.e20d38b0.js rel=prefetch><link href=/js/chunk-2d230c84.dd171f73.js rel=prefetch><link href=/js/chunk-2d23797f.81c105bb.js rel=prefetch><link href=/js/chunk-2d238455.2ee5228a.js rel=prefetch><link href=/js/chunk-525ceeb4.86cb8ef8.js rel=prefetch><link href=/js/chunk-556a3c26.6ecffb1e.js rel=prefetch><link href=/js/chunk-5a36db52.34be6a94.js rel=prefetch><link href=/js/chunk-5f804cb6.1eb6517c.js rel=prefetch><link href=/js/chunk-691072f0.a882f297.js rel=prefetch><link href=/js/chunk-748c6bd6.a66b5469.js rel=prefetch><link href=/js/chunk-74a19a89.a717bc51.js rel=prefetch><link href=/js/chunk-74bc5b1d.6e9ec29f.js rel=prefetch><link href=/js/chunk-76f0d0a6.0af6d1ef.js rel=prefetch><link href=/js/chunk-76f252f0.62c346c5.js rel=prefetch><link href=/js/chunk-770ab343.5240f52c.js rel=prefetch><link href=/js/chunk-773732cb.d20767d0.js rel=prefetch><link href=/js/chunk-af342e50.00885441.js rel=prefetch><link href=/js/chunk-d8bac8ae.e7bfe952.js rel=prefetch><link href=/js/chunk-e318d9e0.da881717.js rel=prefetch><link href=/js/chunk-e75cbb52.3e867e18.js rel=prefetch><link href=/js/chunk-efd73ecc.b87347b2.js rel=prefetch><link href=/js/chunk-f4062fa0.06e98e75.js rel=prefetch><link href=/css/app.991f529a.css rel=preload as=style><link href=/css/chunk-vendors.8802a994.css rel=preload as=style><link href=/js/app.72d32166.js rel=preload as=script><link href=/js/chunk-vendors.ae24841a.js rel=preload as=script><link href=/css/chunk-vendors.8802a994.css rel=stylesheet><link href=/css/app.991f529a.css rel=stylesheet></head><body><div id=loader><div class="spinner spinner--rotate-square-2"></div><img src=./static/img/logo.png alt="" class=loader-logo></div><div id=app></div><script src=/js/chunk-vendors.ae24841a.js></script><script src=/js/app.72d32166.js></script></body></html>

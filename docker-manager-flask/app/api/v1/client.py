@@ -10,6 +10,7 @@ import os
 import yaml
 from flask import jsonify
 
+from app.libs.certification import get_certification, cert_file_path
 from app.libs.error_code import Success
 from app.libs.redprint import Redprint
 import docker
@@ -22,7 +23,14 @@ api = Redprint('client')
 def create_client():
     form = ClientForm().validate_for_api()
     host = form.host.data
-    client = docker.DockerClient(base_url='tcp://' + host + ':2375')
+    certification = get_certification(host)
+    # 判断是否鉴权
+    if certification:
+        cert,key = cert_file_path(host)
+        tls_config = docker.tls.TLSConfig(client_cert=(cert, key),verify=False)
+        client = docker.DockerClient(base_url='tcp://' + host + ':2376', tls=tls_config)
+    else:
+        client = docker.DockerClient(base_url='tcp://' + host + ':2375')
     info_all = client.info()
     info = {}
     info['Name'] = info_all['Name']
@@ -42,7 +50,14 @@ def create_client():
 def image_list():
     form = ClientForm().validate_for_api()
     host = form.host.data
-    client = docker.DockerClient(base_url='tcp://' + host + ':2375')
+    certification = get_certification(host)
+    # 判断是否鉴权
+    if certification:
+        cert,key = cert_file_path(host)
+        tls_config = docker.tls.TLSConfig(client_cert=(cert, key),verify=False)
+        client = docker.DockerClient(base_url='tcp://' + host + ':2376', tls=tls_config)
+    else:
+        client = docker.DockerClient(base_url='tcp://' + host + ':2375')
     images = client.images.list()
     image_list = []
     for image in images:
@@ -54,7 +69,14 @@ def image_list():
 def container_list():
     form = ClientForm().validate_for_api()
     host = form.host.data
-    client = docker.DockerClient(base_url='tcp://' + host + ':2375')
+    certification = get_certification(host)
+    # 判断是否鉴权
+    if certification:
+        cert,key = cert_file_path(host)
+        tls_config = docker.tls.TLSConfig(client_cert=(cert, key),verify=False)
+        client = docker.DockerClient(base_url='tcp://' + host + ':2376', tls=tls_config)
+    else:
+        client = docker.DockerClient(base_url='tcp://' + host + ':2375')
     containers = client.containers.list(all)
     container_list = {
         'running_list': [],
@@ -80,6 +102,6 @@ def hosts():
         yaml_data = yaml.load(f)
     hosts = yaml_data.get('hosts')
     hostList = []
-    for host in hosts:
-        hostList.append({'value': host, 'label': host})
+    for h in hosts:
+        hostList.append({'value': h['host'], 'label': h['host']})
     return jsonify(hostList)
