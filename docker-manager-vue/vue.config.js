@@ -38,8 +38,8 @@ module.exports = {
   devServer: {
     proxy: {
       '/v1': {
-        target: 'http://127.0.0.1:5005/',
-        // target: '/',
+        // target: 'http://127.0.0.1:5005/',
+        target: '/',
         changeOrigin: true,
         ws: true,
         pathRewrite: {

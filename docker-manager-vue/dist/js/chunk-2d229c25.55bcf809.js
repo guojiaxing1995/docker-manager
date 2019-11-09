@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d229c25"],{df8e:function(n,p,e){n.exports=e.p+"img/team-name.e4fdbca6.png"}}]);

@@ -3,15 +3,27 @@ version: "3"
 services:
   
   flask:
-    image: docker-manager/flask:v1
+    image: guojiaxing1995/docker-manager-flask:v1
     restart: always
     expose:
       - 5005
     networks:
       - docker-manager
+    volumes:
+      - ./config/:/docker-manager-flask/app/config/
+      
+  exec:
+    image: guojiaxing1995/docker-manager-exec:v1
+    restart: always
+    expose:
+      - 5006
+    networks:
+      - docker-manager
+    volumes:
+      - ./config/:/docker-manager-exec/config/
            
-  nginx:
-    image: docker-manager/vue:v1
+  vue:
+    image: guojiaxing1995/docker-manager-vue:v1
     restart: always
     ports:
       - 8085:80

@@ -161,8 +161,8 @@ def logs(data):
         emit(host + name, {'name': name, 'msg': line.decode('utf-8').strip()})
 
 
-@api.route('/shell')
-def shell():
+@socket_io.on('shell')
+def shell(ws):
     form = ContainerForm().validate_for_api()
     host = 'www.guojiaxing.red'
     name_or_Id = 'f5ca53929c1d'
@@ -171,14 +171,14 @@ def shell():
     if certification:
         cert,key = cert_file_path(host)
         tls_config = docker.tls.TLSConfig(client_cert=(cert, key),verify=False)
-        client = docker.DockerClient(base_url='tcp://' + host + ':2376', tls=tls_config)
+        client = docker.APIClient(base_url='tcp://' + host + ':2376', tls=tls_config)
     else:
-        client = docker.DockerClient(base_url='tcp://' + host + ':2375')
-    c = client.containers.get(name_or_Id)
+        client = docker.APIClient(base_url='tcp://' + host + ':2375')
+    exec_id = client.exec_create(name_or_Id,'/bin/sh',stdin=True,tty=True)['Id']
+    client.exec_resize(exec_id, height=100, width=118)
+    client.exec_start(exec_id, detach=False, tty=True, stream=True)
+
     client.close()
-    # a = c.exec_run(['touch', 'a'],stream=True,stdin=True,tty=True)
-    for line in c.exec_run(['/bin/sh','touch', 'bbb'],stream=True,stdin=True,tty=True).output:
-        return line
 
 
 @socket_io.on_error()        # Handles the default namespace
@@ -192,4 +192,5 @@ def test_connect():
 @socket_io.on('disconnect')
 def test_disconnect():
     print('Client disconnected')
+
 
