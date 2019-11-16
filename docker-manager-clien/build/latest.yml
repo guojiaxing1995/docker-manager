@@ -1,8 +1,0 @@
-version: 1.0.0
-files:
-  - url: docker-manager-Setup-1.0.0.exe
-    sha512: gfE/wYhvLF/vbfDy8YTiMdyi/9GhrgN8J5U0aGn3LfYfXtJGKQVn8mlDAOdlLCnP7xy66aXGo6Jzt9sw19505Q==
-    size: 44854743
-path: docker-manager-Setup-1.0.0.exe
-sha512: gfE/wYhvLF/vbfDy8YTiMdyi/9GhrgN8J5U0aGn3LfYfXtJGKQVn8mlDAOdlLCnP7xy66aXGo6Jzt9sw19505Q==
-releaseDate: '2019-11-16T12:06:59.644Z'
