@@ -2,6 +2,7 @@
 node_modules
 /dist
 /script/.cache
+build
 
 # local env files
 .env.local
