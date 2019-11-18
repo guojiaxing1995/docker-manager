@@ -18,7 +18,7 @@ function createWindow () {
   })
 
   // 填写项目地址
-  mainWindow.loadURL('http://www.guojiaxing.red:8085')
+  mainWindow.loadURL('http://www.xxx:8085')
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
