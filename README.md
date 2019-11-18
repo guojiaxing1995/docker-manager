@@ -49,6 +49,14 @@ docker可视化管理平台，使用vue + python flask 前后端分离实现。
 web terminal（进入容器执行命令）
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20191110100627380.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NDUwNDg0,size_16,color_FFFFFF,t_70)
 
+## 客户端
+
+```docker-manager-client```是docker manager的客户端版本。
+目前只是使用 electron 嵌入了web端的地址。
+
+效果如下：
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20191118190856415.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NDUwNDg0,size_16,color_FFFFFF,t_70)
+
 
 
 
