@@ -3,6 +3,7 @@ node_modules
 /dist
 /script/.cache
 build
+electron-quick-start-1.0.0.tgz
 
 # local env files
 .env.local
