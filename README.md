@@ -24,7 +24,9 @@ docker可视化管理平台，使用vue + python flask 前后端分离实现。
 <br>
 通过项目根目录下的docker-compose.yaml启动服务，启动之前将后端项目中的config目录拷贝到根目录下用做配置文件挂载。
 <br>
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20191110103931968.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NDUwNDg0,size_16,color_FFFFFF,t_70)
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20191110104000745.png)
 <br>
 在后端项目中，config目录下是所有的配置文件。其中hosts.yaml文件配置的是要管理的服务器。每个服务器有两个属性，host是访问域名或IP，certification是目标服务器是否会对docker api 进行鉴权（如何开启远程api访问和鉴权可去docker官网查询相关资料）。如果是需要鉴权的服务器，需要在certification目录下建一个以被鉴权服务器host为名称的文件夹，将cert.pem和key.pem文件放在下面即可。
