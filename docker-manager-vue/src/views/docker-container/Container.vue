@@ -521,7 +521,9 @@ export default {
       this.terminal = term
       term.open(document.getElementById('terminal'))
       term.writeln('Hello \x1b[1;34mTester\x1B[0m $ ')
+      // 线上部署
       const ws = new WebSocket(`wss://${location.host}/echo`)
+      // 本地调试
       // const ws = new WebSocket('ws://localhost:5006/echo')
       this.ws = ws
       ws.onopen = function () {

@@ -26,9 +26,6 @@
         <button class="submit-btn" type="submit">登录</button>
       </form>
     </div>
-    <div class="record">
-      <el-link type="primary" :underline="false" href="http://www.beian.miit.gov.cn" target="_blank">晋ICP备18013433号-1</el-link>
-    </div>
   </div>
 </template>
 
@@ -46,7 +43,7 @@ export default {
       throttleLogin: null, // 节流登录
       form: {
         nickname: 'super',
-        password: '',
+        password: '123456',
         confirm_password: '',
       },
     }
@@ -56,7 +53,7 @@ export default {
       const { nickname, password } = this.form
       try {
         this.loading = true
-        if (nickname === 'super' && password === 'ftlb2000') {
+        if (nickname === 'super' && password === '123456') {
           this.$router.push('/about')
           this.$message.success('登录成功')
         } else {

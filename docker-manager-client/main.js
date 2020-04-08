@@ -17,8 +17,8 @@ function createWindow () {
     autoHideMenuBar: true,
   })
 
-  // 填写项目地址
-  mainWindow.loadURL('https://www.guojiaxing.red/')
+  // 填写项目前端地址
+  mainWindow.loadURL('/')
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()

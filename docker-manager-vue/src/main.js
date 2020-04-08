@@ -30,8 +30,9 @@ Vue.use(ElementUI)
 
 Vue.use(new VueSocketIO({
   debug: true,
-  // 服务器端地址
+  // 本地调试
   // connection: 'http://127.0.0.1:5005/',
+  // 线上部署
   connection: '/',
 }))
 Vue.component(CollapseTransition.name, CollapseTransition)
