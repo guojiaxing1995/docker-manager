@@ -80,11 +80,14 @@ npm run star
 	docker build -t guojiaxing1995/docker-manager-exec:v1 .   //打镜像
 	```
 	**docker-manager-client（客户端）**
-  
-	在 docker-manager-client 目录下执行
+	
 	目前只试过windows包，其他平台包请百度 electron 
+	
 	这里的客户端只是一个壳子嵌入了前端地址，所以请保证上述3端部署成功
+	
 	将目录下main.js中的服务地址替换为对应的前端地址 mainWindow.loadURL('/')
+	
+	在 docker-manager-client 目录下执行
 	``` shell
 	npm run dist   //打包
 	```
