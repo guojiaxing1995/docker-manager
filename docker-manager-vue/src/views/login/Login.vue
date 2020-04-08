@@ -5,8 +5,7 @@
     </div>
     <div class="form-box" v-loading="loading" element-loading-background="rgba(0, 0, 0, 0)">
       <div class="title">
-        <h1 title="个人自动化测试">个人自动化测试</h1>
-        <!-- <h1 title="Lin">个人自动化测试</h1> -->
+        <h1 title="docker manager">docker manager</h1>
       </div>
       <form class="login-form" autocomplete="off" @submit.prevent="throttleLogin()">
         <div class="form-item nickname">
@@ -26,7 +25,7 @@
         <button class="submit-btn" type="submit">登录</button>
       </form>
     </div>
-  </div>
+
 </template>
 
 <script>
