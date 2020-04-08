@@ -20,7 +20,7 @@ docker可视化管理平台，使用vue + python flask 前后端分离实现。
 这里需要说下项目结构。后端框架都是flask，但是分了两个后端。原因是在做动态日志的时候后端使用了flask-socketio这个库，而进入容器操作其实就是一个web terminal，这个功能参考网上使用了flask-sockets库,这两个库不兼容无法同时使用。
 
 ### 项目部署
-每个子项目下都已经写好了Dockerfile,直接进行镜像构建即可。
+
 <br>
 通过项目根目录下的docker-compose.yaml启动服务，启动之前将后端项目中的config目录拷贝到根目录下用做配置文件挂载。
 <br>
