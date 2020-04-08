@@ -34,7 +34,7 @@ npm run serve
 
    在 docker-manager-flask 目录下执行
 
-``` javascript
+``` shell
 pip install -r requirements.txt
 python app.py
 ```
@@ -42,7 +42,7 @@ python app.py
 
    在 docker-manager-exec 目录下执行
 
-``` javascript
+``` shell
 pip install -r requirements.txt
 python app.py
 ```
