@@ -5,7 +5,8 @@
     </div>
     <div class="form-box" v-loading="loading" element-loading-background="rgba(0, 0, 0, 0)">
       <div class="title">
-        <h1 title="Lin">Docker Manager</h1>
+        <h1 title="个人自动化测试">个人自动化测试</h1>
+        <!-- <h1 title="Lin">个人自动化测试</h1> -->
       </div>
       <form class="login-form" autocomplete="off" @submit.prevent="throttleLogin()">
         <div class="form-item nickname">
@@ -20,10 +21,13 @@
           <input type="password"
                  v-model="form.password"
                  autocomplete="off"
-                 placeholder="请填写用户登录密码">
+                 placeholder="请填写密码">
         </div>
         <button class="submit-btn" type="submit">登录</button>
       </form>
+    </div>
+    <div class="record">
+      <el-link type="primary" :underline="false" href="http://www.beian.miit.gov.cn" target="_blank">晋ICP备18013433号-1</el-link>
     </div>
   </div>
 </template>
@@ -42,8 +46,8 @@ export default {
       throttleLogin: null, // 节流登录
       form: {
         nickname: 'super',
-        password: '123456',
-        confirm_password: '123456',
+        password: '',
+        confirm_password: '',
       },
     }
   },
@@ -52,7 +56,7 @@ export default {
       const { nickname, password } = this.form
       try {
         this.loading = true
-        if (nickname === 'super' && password === '123456') {
+        if (nickname === 'super' && password === 'ftlb2000') {
           this.$router.push('/about')
           this.$message.success('登录成功')
         } else {
@@ -132,9 +136,9 @@ export default {
       margin-bottom: 15%;
 
       h1 {
-        padding-left: 74px;
+        // padding-left: 85px;
         box-sizing: border-box;
-        text-align: left;
+        text-align: center;
         color: #8c98ae;
       }
     }
@@ -188,6 +192,12 @@ export default {
         cursor: pointer;
       }
     }
+  }
+  .record {
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    bottom: 1%;
   }
 }
 </style>
