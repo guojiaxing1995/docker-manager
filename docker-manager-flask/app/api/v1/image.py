@@ -33,8 +33,8 @@ def list():
     for i in images:
         for image_tag in i.attrs['RepoTags']:
             image_item = {}
-            image_name = image_tag.split(':')[0]
-            image_tag = image_tag.split(':')[1]
+            image_name = ':'.join(image_tag.split(':')[:-1])
+            image_tag = image_tag.split(':')[-1]
             image_item['name'] = image_name
             image_item['tag'] = image_tag
             image_item['id'] = i.short_id.split(':')[1]

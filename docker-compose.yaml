@@ -3,7 +3,11 @@ version: "3"
 services:
   
   flask:
+    build: 
+      context: ./docker-manager-flask
+      dockerfile: Dockerfile
     image: guojiaxing1995/docker-manager-flask:v1
+    container_name: docker-manager-flask
     restart: always
     expose:
       - 5005
@@ -13,7 +17,11 @@ services:
       - ./config/:/docker-manager-flask/app/config/
       
   exec:
+    build: 
+      context: ./docker-manager-exec
+      dockerfile: Dockerfile
     image: guojiaxing1995/docker-manager-exec:v1
+    container_name: docker-manager-exec
     restart: always
     expose:
       - 5006
@@ -23,7 +31,11 @@ services:
       - ./config/:/docker-manager-exec/config/
            
   vue:
+    build: 
+      context: ./docker-manager-vue
+      dockerfile: Dockerfile
     image: guojiaxing1995/docker-manager-vue:v1
+    container_name: docker-manager-vue
     restart: always
     ports:
       - 8085:80

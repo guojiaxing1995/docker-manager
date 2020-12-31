@@ -17,6 +17,7 @@ from lib.certification import get_certification, cert_file_path
 app = Flask(__name__)
 sockets = Sockets(app)
 
+
 @sockets.route('/echo')
 def exec(ws):
     host_name = ws.receive()
@@ -25,8 +26,8 @@ def exec(ws):
     certification = get_certification(host)
     # 判断是否鉴权
     if certification:
-        cert,key = cert_file_path(host)
-        tls_config = docker.tls.TLSConfig(client_cert=(cert, key),verify=False)
+        cert, key = cert_file_path(host)
+        tls_config = docker.tls.TLSConfig(client_cert=(cert, key), verify=False)
         client = docker.APIClient(base_url='tcp://' + host + ':2376', tls=tls_config)
     else:
         client = docker.APIClient(base_url='tcp://' + host + ':2375')
@@ -34,7 +35,7 @@ def exec(ws):
         "/bin/sh",
         "-c",
         'TERM=xterm-256color; export TERM; [ -x /bin/bash ] && ([ -x /usr/bin/script ] && /usr/bin/script -q -c "/bin/bash" /dev/null || exec /bin/bash) || exec /bin/sh']
-    exec_id = client.exec_create(name,execCommand,stdin=True,tty=True)['Id']
+    exec_id = client.exec_create(name, execCommand, stdin=True, tty=True)['Id']
     sock = client.exec_start(exec_id, detach=False, tty=True, socket=True)
     # client.exec_resize(exec_id, height=28, width=200)
     terminalThread = DockerStreamThread(ws, sock)
@@ -51,10 +52,12 @@ def exec(ws):
                     sock.send(bytes(message, encoding='utf-8'))
     except Exception as err:
         print(err)
+        app.logger.debug(err)
     finally:
         ws.close()
         sock.close()
         client.close()
+
 
 class DockerStreamThread(threading.Thread):
     def __init__(self, ws, terminalStream):
@@ -79,6 +82,7 @@ class DockerStreamThread(threading.Thread):
                 self.ws.close()
                 break
 
+
 class BeatWS(threading.Thread):
     def __init__(self, ws, docker_client):
         super(BeatWS, self).__init__()
@@ -91,7 +95,6 @@ class BeatWS(threading.Thread):
             self.docker_client.ping()
 
 
-
 @app.route('/')
 def hello():
     return '遇事不决 可问春风'
@@ -100,6 +103,7 @@ def hello():
 if __name__ == "__main__":
     from gevent import pywsgi
     from geventwebsocket.handler import WebSocketHandler
+
     server = pywsgi.WSGIServer(('', 5006), app, handler_class=WebSocketHandler)
     print("web server start ... ")
     server.serve_forever()
