@@ -19,7 +19,7 @@ PyYAML==5.1.2
 requests==2.19.1
 SQLAlchemy==1.2.11
 tzlocal==1.5.1
-urllib3==1.23
+urllib3==1.26.5
 websocket-client==0.56.0
 Werkzeug==0.14.1
 WTForms==2.2.1
