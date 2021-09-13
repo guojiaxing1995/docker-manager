@@ -15,7 +15,7 @@ idna==2.7
 itsdangerous==0.24
 Jinja2==2.10
 pytz==2018.5
-PyYAML==5.1.2
+PyYAML==5.4
 requests==2.19.1
 SQLAlchemy==1.2.11
 tzlocal==1.5.1
