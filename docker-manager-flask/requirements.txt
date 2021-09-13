@@ -13,7 +13,7 @@ Flask-SQLAlchemy==2.3.2
 Flask-WTF==0.14.2
 idna==2.7
 itsdangerous==0.24
-Jinja2==2.10
+Jinja2==2.11.3
 pytz==2018.5
 PyYAML==5.1.2
 requests==2.19.1
