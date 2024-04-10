@@ -25,7 +25,7 @@
         <button class="submit-btn" type="submit">登录</button>
       </form>
     </div>
-
+  </div>
 </template>
 
 <script>
